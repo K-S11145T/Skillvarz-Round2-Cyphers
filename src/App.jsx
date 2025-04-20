@@ -5,6 +5,9 @@ import Page2 from './Components/Page2'
 import Page3 from './Components/Page3'
 import Page4 from './Components/Page4'
 import Page5 from './Components/Page5'
+import Footer from './Components/Footer'
+import Lenis from 'lenis'
+import Page6 from './Components/Page6'
 
 const BREAKPOINT = 768
 
@@ -13,6 +16,7 @@ const App = () => {
   const contentRef = useRef(null)
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= BREAKPOINT)
   const animationRef = useRef(null)
+  const lenis = new Lenis();
 
   // Handle scroll animation with GSAP
   const animateScroll = useCallback((target, duration = 0.8, ease = "power3.out") => {
@@ -86,7 +90,7 @@ const App = () => {
       const maxScroll = el.scrollWidth - el.clientWidth
 
       const scrollActions = {
-        ArrowLeft: () => animateScroll(Math.max(currentScroll - pageWidth * 0.33, 0), 0.6, "power2.out"),
+        ArrowLeft: () => animateScroll(Math.max(currentScroll - pageWidth * 0.33, 0)),
         ArrowRight: () => animateScroll(Math.min(currentScroll + pageWidth * 0.33, maxScroll), 0.6, "power2.out"),
         PageUp: () => animateScroll(Math.max(currentScroll - pageWidth * 0.9, 0)),
         PageDown: () => animateScroll(Math.min(currentScroll + pageWidth * 0.9, maxScroll)),
@@ -107,19 +111,24 @@ const App = () => {
   }, [isDesktop, animateScroll])
 
   return (
-    <div
+    <div 
       ref={scrollContainerRef}
-      className="w-screen h-screen"
+      className="w-screen bg-zinc-700 h-screen"
       tabIndex={0}
+      data-horizontal-scroll
     >
-      <div ref={contentRef} className={isDesktop ? 'flex' : 'flex flex-col'}>
+      <div ref={contentRef} className={isDesktop ? 'flex relative' : 'flex flex-col relative'}>
         <Page1 />
         <Page2 />
         <Page3 />
         <Page4 />
         <Page5 />
+        <Page6 />
+ 
+        <Footer />
       </div>
     </div>
+
   )
 }
 
