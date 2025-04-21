@@ -86,7 +86,7 @@ const Page2 = () => {
     <div className="flex-none w-screen min-h-screen bg-zinc-200 text-xl">
       <div className="flex flex-col lg:flex-row items-center px-4 lg:px-10 justify-evenly w-full h-full py-10 lg:py-0 lg:h-screen">
         {/* Image Section */}
-        <div className="w-full lg:w-[60vh] h-[40vh] lg:h-[60vh] lg:ml-[-20%] mb-8 lg:mb-0">
+        <div className="w-full lg:w-[65vh] h-[40vh] lg:h-[65vh] lg:ml-[-18%] mb-8 lg:mb-0 z-[9]">
           <img
             className="w-full h-full object-cover"
             src="/Page-2/artist.png"
