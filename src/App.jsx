@@ -1,82 +1,144 @@
-import React, { useEffect, useRef } from "react";
-import Page1 from "./Components/Page1";
-import Page2 from "./Components/Page2";
-import Page3 from "./Components/Page3";
-import Page4 from "./Components/Page4";
-import Page5 from "./Components/Page5";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/all";
-import ReactLenis, { useLenis } from "lenis/react";
+import React, { useRef, useEffect, useState, useCallback } from 'react'
+import { gsap } from 'gsap'
+import Page1 from './Components/Page1'
+import Page2 from './Components/Page2'
+import Page3 from './Components/Page3'
+import Page4 from './Components/Page4'
+import Page5 from './Components/Page5'
+import Footer from './Components/Footer'
+import Lenis from 'lenis'
+import Page6 from './Components/Page6'
+
+const BREAKPOINT = 768
 
 const App = () => {
-  const lenis = useLenis();
-  gsap.registerPlugin(ScrollTrigger);
+  const scrollContainerRef = useRef(null)
+  const contentRef = useRef(null)
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= BREAKPOINT)
+  const animationRef = useRef(null)
+  const lenis = new Lenis();
 
-  const scrollContainerRef = useRef(null);
-  const parent = useRef(null);
+  // Handle scroll animation with GSAP
+  const animateScroll = useCallback((target, duration = 0.8, ease = "power3.out") => {
+    if (animationRef.current) {
+      animationRef.current.kill()
+    }
+    
+    animationRef.current = gsap.to(scrollContainerRef.current, {
+      scrollLeft: target,
+      duration,
+      ease,
+      overwrite: true
+    })
+  }, [])
 
+  // Initialize responsive layout
   useEffect(() => {
-    if (!parent.current || !lenis) return;
+    const container = scrollContainerRef.current
+    const content = contentRef.current
 
-    ScrollTrigger.scrollerProxy(parent.current, {
-      scrollTop(value) {
-        if (arguments.length) {
-          lenis.scrollTo(value);
-        }
-        return lenis.scroll;
-      },
-      getBoundingClientRect() {
-        return {
-          top: 0,
-          left: 0,
-          width: window.innerWidth,
-          height: window.innerHeight,
-        };
-      },
-      pinType: parent.current.style.transform ? "transform" : "fixed",
-    });
+    if (isDesktop) {
+      // Desktop setup
+      gsap.set(container, { overflowX: 'auto', overflowY: 'hidden' })
+      gsap.set(content, { display: 'flex' })
+    } else {
+      // Mobile setup
+      gsap.set(container, { overflowX: 'hidden', overflowY: 'auto' })
+      gsap.set(content, { display: 'flex', flexDirection: 'column' })
+    }
 
-    lenis.on("scroll", ScrollTrigger.update);
+    return () => {
+      animationRef.current?.kill()
+    }
+  }, [isDesktop])
 
-    ScrollTrigger.defaults({
-      scroller: parent.current,
-    });
+  // Handle window resize
+  useEffect(() => {
+    const handleResize = () => {
+      const newIsDesktop = window.innerWidth >= BREAKPOINT
+      if (newIsDesktop !== isDesktop) {
+        setIsDesktop(newIsDesktop)
+      }
+    }
+    
+    const debouncedResize = debounce(handleResize, 100)
+    window.addEventListener('resize', debouncedResize)
+    return () => window.removeEventListener('resize', debouncedResize)
+  }, [isDesktop])
 
-    ScrollTrigger.refresh();
-  }, [lenis]);
-  useGSAP(() => {
-    gsap.to(scrollContainerRef.current, {
-      x: "-100%",
-      ease: "none",
-      scrollTrigger: {
-        trigger: scrollContainerRef.current,
-        start: "top top",
-        end: "top -100%",
-        scroller: parent.current,
-        pin: true,
-        scrub: true,
-        markers: true,
-      },
-    });
-  }, []);
+  // Desktop scroll handlers
+  useEffect(() => {
+    if (!isDesktop) return
+    
+    const el = scrollContainerRef.current
+    if (!el) return
+
+    const handleWheel = (e) => {
+      e.preventDefault()
+      const currentScroll = el.scrollLeft
+      const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY
+      const target = currentScroll + delta * 1.8
+      animateScroll(target)
+    }
+
+    const handleKeyDown = (e) => {
+      if (!['ArrowLeft', 'ArrowRight', 'PageUp', 'PageDown', 'Home', 'End'].includes(e.key)) return
+      
+      e.preventDefault()
+      const pageWidth = el.clientWidth
+      const currentScroll = el.scrollLeft
+      const maxScroll = el.scrollWidth - el.clientWidth
+
+      const scrollActions = {
+        ArrowLeft: () => animateScroll(Math.max(currentScroll - pageWidth * 0.33, 0)),
+        ArrowRight: () => animateScroll(Math.min(currentScroll + pageWidth * 0.33, maxScroll), 0.6, "power2.out"),
+        PageUp: () => animateScroll(Math.max(currentScroll - pageWidth * 0.9, 0)),
+        PageDown: () => animateScroll(Math.min(currentScroll + pageWidth * 0.9, maxScroll)),
+        Home: () => animateScroll(0),
+        End: () => animateScroll(maxScroll)
+      }
+
+      scrollActions[e.key]?.()
+    }
+
+    el.addEventListener('wheel', handleWheel, { passive: false })
+    window.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      el.removeEventListener('wheel', handleWheel)
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [isDesktop, animateScroll])
 
   return (
-    <ReactLenis root>
-      <div ref={parent} className={`relative w-full h-screen overflow-hidden`}>
-        <div
-          ref={scrollContainerRef}
-          className="w-[500vw] h-full flex flex-shrink-0"
-        >
-          <Page1 />
-          <Page2 />
-          <Page3 />
-          <Page4 />
-          <Page5 />
-        </div>
+    <div 
+      ref={scrollContainerRef}
+      className="w-screen bg-zinc-700 h-screen"
+      tabIndex={0}
+      data-horizontal-scroll
+    >
+      <div ref={contentRef} className={isDesktop ? 'flex relative' : 'flex flex-col relative'}>
+        <Page1 />
+        <Page2 />
+        <Page3 />
+        <Page4 />
+        <Page5 />
+        <Page6 />
+ 
+        <Footer />
       </div>
-    </ReactLenis>
-  );
-};
+    </div>
 
-export default App;
+  )
+}
+
+// Helper function for debouncing
+function debounce(func, delay) {
+  let timeoutId
+  return function(...args) {
+    clearTimeout(timeoutId)
+    timeoutId = setTimeout(() => func.apply(this, args), delay)
+  }
+}
+
+export default App
