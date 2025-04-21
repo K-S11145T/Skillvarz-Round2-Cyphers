@@ -104,7 +104,7 @@ const App = () => {
       e.preventDefault()
       const currentScroll = el.scrollLeft
       const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY
-      const target = currentScroll + delta * 1.8
+      const target = currentScroll + delta * 4
       animateScroll(target)
     }
 
@@ -151,10 +151,10 @@ className="w-screen bg-zinc-700 h-screen overflow-x-hidden"
         <Page4 />
         <Page5 id="page5" />
         
-        <Footer />
 
  
       </div>
+        <Footer />
     </div>
 
   )
