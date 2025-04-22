@@ -10,7 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@gsap/react": "^2.1.2",
+=======
+    "@studio-freight/lenis": "^1.0.42",
+>>>>>>> 67700ab8f505cce0b3b467faf945cd82613048a9
     "@tailwindcss/vite": "^4.1.4",
     "gsap": "^3.12.7",
     "lenis": "^1.2.3",

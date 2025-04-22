@@ -1,2 +1,44 @@
 @import "tailwindcss";
-@import "lenis/dist/lenis.css";
+
+::-webkit-scrollbar {
+  height: 1px;
+  width: 1px;
+  background-color: black;
+}
+::-webkit-scrollbar-thumb {
+  background: #000;
+  border-radius: 10px;
+}
+.scroll-smooth {
+  scroll-behavior: smooth;
+}
+
+@font-face {
+  font-family: "Aux-Mono";
+  src: url("./font/aux-mono.otf");
+}
+
+@font-face {
+  font-family: "Saans";
+  src: url("./font/SaansVF.ttf");
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("./font/Montserrat-Regular.ttf");
+}
+
+@font-face {
+  font-family: "Montserrat-Bold";
+  src: url("./font/Montserrat-Bold.ttf");
+}
+
+@font-face {
+  font-family: "Silk-Serif";
+  src: url("./font/Silk-Serif-Regular.otf");
+}
+
+@font-face {
+  font-family: "Silk-Serif-Light-Italic";
+  src: url("./font/Silk-Serif-Light-Italic.otf");
+}

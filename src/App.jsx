@@ -6,8 +6,7 @@ import Page3 from './Components/Page3'
 import Page4 from './Components/Page4'
 import Page5 from './Components/Page5'
 import Footer from './Components/Footer'
-import Lenis from 'lenis'
-import Page6 from './Components/Page6'
+
 
 const BREAKPOINT = 768
 
@@ -16,7 +15,7 @@ const App = () => {
   const contentRef = useRef(null)
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= BREAKPOINT)
   const animationRef = useRef(null)
-  const lenis = new Lenis();
+
 
   // Handle scroll animation with GSAP
   const animateScroll = useCallback((target, duration = 0.8, ease = "power3.out") => {
@@ -24,11 +23,24 @@ const App = () => {
       animationRef.current.kill()
     }
     
+    // Use native scroll behavior for better performance
+    if (duration < 0.3) {
+      scrollContainerRef.current.scrollTo({
+        left: target,
+        behavior: 'auto'
+      })
+      return
+    }
+
     animationRef.current = gsap.to(scrollContainerRef.current, {
       scrollLeft: target,
       duration,
       ease,
-      overwrite: true
+      overwrite: 'auto',
+      onUpdate: () => {
+        // Force synchronous layout update
+        scrollContainerRef.current.scrollLeft = scrollContainerRef.current.scrollLeft
+      }
     })
   }, [])
 
@@ -38,13 +50,28 @@ const App = () => {
     const content = contentRef.current
 
     if (isDesktop) {
-      // Desktop setup
-      gsap.set(container, { overflowX: 'auto', overflowY: 'hidden' })
-      gsap.set(content, { display: 'flex' })
+      // Set explicit width for horizontal scroll
+      const pageCount = 5; // or get dynamically
+
+      gsap.set(content, {
+        display: 'flex',
+        width: `${pageCount * 100}vw`
+      })
+      gsap.set(container, {
+        overflowX: 'auto',
+        overflowY: 'hidden',
+        scrollBehavior: 'auto'
+      })
     } else {
-      // Mobile setup
-      gsap.set(container, { overflowX: 'hidden', overflowY: 'auto' })
-      gsap.set(content, { display: 'flex', flexDirection: 'column' })
+      gsap.set(content, { 
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%'
+      })
+      gsap.set(container, {
+        overflowX: 'hidden',
+        overflowY: 'auto'
+      })
     }
 
     return () => {
@@ -77,7 +104,7 @@ const App = () => {
       e.preventDefault()
       const currentScroll = el.scrollLeft
       const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY
-      const target = currentScroll + delta * 1.8
+      const target = currentScroll + delta * 4
       animateScroll(target)
     }
 
@@ -90,8 +117,8 @@ const App = () => {
       const maxScroll = el.scrollWidth - el.clientWidth
 
       const scrollActions = {
-        ArrowLeft: () => animateScroll(Math.max(currentScroll - pageWidth * 0.33, 0)),
-        ArrowRight: () => animateScroll(Math.min(currentScroll + pageWidth * 0.33, maxScroll), 0.6, "power2.out"),
+        ArrowLeft: () => animateScroll(Math.max(currentScroll - pageWidth * 0.33, 0),0.6 ),
+        ArrowRight: () => animateScroll(Math.min(currentScroll + pageWidth * 0.33, maxScroll)),
         PageUp: () => animateScroll(Math.max(currentScroll - pageWidth * 0.9, 0)),
         PageDown: () => animateScroll(Math.min(currentScroll + pageWidth * 0.9, maxScroll)),
         Home: () => animateScroll(0),
@@ -113,7 +140,7 @@ const App = () => {
   return (
     <div 
       ref={scrollContainerRef}
-      className="w-screen bg-zinc-700 h-screen"
+className="w-screen bg-zinc-700 h-screen overflow-x-hidden"
       tabIndex={0}
       data-horizontal-scroll
     >
@@ -122,11 +149,12 @@ const App = () => {
         <Page2 />
         <Page3 />
         <Page4 />
-        <Page5 />
-        <Page6 />
+        <Page5 id="page5" />
+        
+
  
-        <Footer />
       </div>
+        <Footer />
     </div>
 
   )
