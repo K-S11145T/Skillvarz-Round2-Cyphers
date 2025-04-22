@@ -1,108 +1,101 @@
-import React, { useRef, useEffect } from 'react'
-import { gsap } from 'gsap'
+import React, { useRef, useEffect, useState } from "react";
+import { gsap } from "gsap";
+import ScrollBasedMarquee from "../Animations/ScrollBasedMarquee";
+
 
 const Page2 = () => {
-  const circleRef = useRef(null)
-  const rotationTween = useRef(null)
-  const lastScrollTime = useRef(Date.now())
-  const lastScrollPos = useRef(0)
-  const velocityRef = useRef(0)
-  const animationFrameId = useRef(null)
+  const circleRef = useRef(null);
+  const rotationTween = useRef(null);
+  const lastScrollTime = useRef(Date.now());
+  const lastScrollPos = useRef(0);
+  const velocityRef = useRef(0);
+  const animationFrameId = useRef(null);
 
   useEffect(() => {
     // Base rotation animation
     rotationTween.current = gsap.to(circleRef.current, {
       rotation: 360,
-      duration: 5, // Balanced base rotation speed
-      ease: 'none',
-      repeat: -1
-    })
-
-    rotationTween.current = gsap.to(circleRef.current, {
-      rotation: 360,
-      duration: 15, // Reduced from 15
-      ease: 'none',
-      repeat: -1
-    })
-
+      duration: 15,
+      ease: "power1.inOut",
+      repeat: -1,
+    });
     const updateRotation = () => {
-      const container = document.querySelector('[data-horizontal-scroll]')
-      if (!container) return
+      const container = document.querySelector("[data-horizontal-scroll]");
+      if (!container) return;
 
-      const currentScroll = container.scrollLeft
-      const currentTime = Date.now()
-      const timeDelta = currentTime - lastScrollTime.current
-      const scrollDelta = Math.abs(currentScroll - lastScrollPos.current)
-      
-      // More responsive velocity calculation
-      const newVelocity = scrollDelta / Math.max(timeDelta, 8) // Reduced from 16
+      const currentScroll = container.scrollLeft;
+      const currentTime = Date.now();
+      const timeDelta = currentTime - lastScrollTime.current;
+      const scrollDelta = currentScroll - lastScrollPos.current; // Removed Math.abs to get direction
+
+      // Calculate velocity with direction
+      const newVelocity = scrollDelta / Math.max(timeDelta, 8);
       velocityRef.current = gsap.utils.interpolate(
         velocityRef.current,
-        Math.max(0, Math.min(3, newVelocity * 5)), // Increased multiplier
-        0.2 // Reduced from 0.4 for faster response
-      )
-      
-      // Quicker rotation update
-      gsap.to(rotationTween.current, {
-        timeScale: 1 + (velocityRef.current * 4),
-        duration: 0.1, // Reduced from power1.out for instant response
-        ease: 'none',
-        overwrite: 'auto'
-      })
+        Math.max(-3, Math.min(3, newVelocity * 5)), // Allow negative values
+        0.2
+      );
 
-      lastScrollTime.current = currentTime
-      lastScrollPos.current = currentScroll
-    }
+      // Update rotation based on direction
+      gsap.to(rotationTween.current, {
+        timeScale: velocityRef.current, // Negative value will reverse rotation
+        duration: 0.02,
+        ease: "none",
+        overwrite: "auto",
+      });
+
+      lastScrollTime.current = currentTime;
+      lastScrollPos.current = currentScroll;
+    };
 
     const handleScroll = () => {
-      cancelAnimationFrame(animationFrameId.current)
-      animationFrameId.current = requestAnimationFrame(updateRotation)
-    }
+      cancelAnimationFrame(animationFrameId.current);
+      animationFrameId.current = requestAnimationFrame(updateRotation);
+    };
 
-    const container = document.querySelector('[data-horizontal-scroll]')
-    container?.addEventListener('scroll', handleScroll, { passive: true })
-    
+    const container = document.querySelector("[data-horizontal-scroll]");
+    container?.addEventListener("scroll", handleScroll, { passive: true });
+
     // Auto reset to base speed
     const resetInterval = setInterval(() => {
-      if (Date.now() - lastScrollTime.current > 50) { // Reduced from 100
+      if (Date.now() - lastScrollTime.current > 50) {
+        // Reduced from 100
         gsap.to(rotationTween.current, {
           timeScale: 1,
           duration: 0.3, // Reduced from 0.8
-          ease: 'power1.out',
-          overwrite: true
-        })
+          ease: "power1.out",
+          overwrite: true,
+        });
       }
-    }, 50)
+    }, 50);
 
     return () => {
-      container?.removeEventListener('scroll', handleScroll)
-      rotationTween.current?.kill()
-      clearInterval(resetInterval)
-      cancelAnimationFrame(animationFrameId.current)
-    }
-  }, [])
+      container?.removeEventListener("scroll", handleScroll);
+      rotationTween.current?.kill();
+      clearInterval(resetInterval);
+      cancelAnimationFrame(animationFrameId.current);
+    };
+  }, []);
 
   return (
     <div className="flex-none w-screen min-h-screen bg-zinc-200 text-xl">
-      <div className="flex flex-col lg:flex-row items-center px-4 lg:px-10 justify-evenly w-full h-full py-10 lg:py-0 lg:h-screen">
+      <div className="flex flex-col relative lg:flex-row items-center px-4 lg:px-10 justify-evenly w-full h-full py-10 lg:py-0 lg:h-screen">
         {/* Image Section */}
         <div className="w-full lg:w-[65vh] h-[40vh] lg:h-[65vh] lg:ml-[-18%] mb-8 lg:mb-0 z-[9]">
           <img
             className="w-full h-full object-cover"
-            src="/Page-2/artist.png"
+            src="/Page-2/ModelGirl.webp"
             alt="Artist"
           />
         </div>
 
         {/* Vertical Text Section */}
-        <div className="text-4xl lg:text-7xl mb-8 lg:mb-0">
-          <h1 className="lg:[writing-mode:vertical-rl] lg:rotate-180 lg:[text-orientation:mixed]">
-            Marshall - Marshall
-          </h1>
+        <div className="absolute  w-[100%]  translate-x-[-10%] h-[15%]  -rotate-90 ">
+        <ScrollBasedMarquee text="Marshall – Marshall –" speed={200} />
         </div>
 
         {/* Content Section */}
-        <div className="w-full lg:w-[35%] text-base lg:text-lg h-auto lg:h-[90%] px-4 lg:px-0">
+        <div className="w-full lg:w-[35%] text-base md:ml-0 lg:ml-38 lg:text-lg h-auto lg:h-[90%] px-4 lg:px-0">
           <h1>Artist: Suki | Toronto</h1>
 
           <div className="relative">
@@ -127,19 +120,36 @@ const Page2 = () => {
               Read More
             </button>
 
-            <div   ref={circleRef} className="circle absolute top-1/4 left-1/2 w-54 h-54 bg-transparent border-1 border-zinc-900 rounded-full">
-              <h4 className="absolute -top-4 left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-0">
-                2021
-              </h4>
-              <h4 className="absolute top-1/2 -right-4 translate-x-1/2 -translate-y-1/2 rotate-90">
-                2021
-              </h4>
-              <h4 className="absolute -bottom-4 left-1/2 -translate-x-1/2 translate-y-1/2 rotate-180">
-                2021
-              </h4>
-              <h4 className="absolute top-1/2 -left-4 -translate-x-1/2 -translate-y-1/2 rotate-[-90deg]">
-                2021
-              </h4>
+            <div
+              ref={circleRef}
+              className="circle flex items-center justify-center absolute top-1/4 left-1/2 w-54 h-54 bg-transparent border-1 border-zinc-900 rounded-full"
+            >
+              <p className="text-3xl font-light font-[Saans]">+</p>
+
+              <div className="absolute -top-2 left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-0 flex flex-col items-center justify-center">
+                <h4 className="">2021</h4>
+                <p className="text-2xl leading-none font-light font-[Saans]">
+                  +
+                </p>
+              </div>
+              <div className="absolute top-1/2 -right-2 translate-x-1/2 -translate-y-1/2 rotate-90 flex flex-col items-center justify-center">
+                <h4 className="">2021</h4>
+                <p className="text-2xl leading-none font-light font-[Saans]">
+                  +
+                </p>
+              </div>
+              <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 translate-y-1/2 rotate-180 flex flex-col items-center justify-center">
+                <h4 className="">2021</h4>
+                <p className="text-2xl leading-none font-light font-[Saans]">
+                  +
+                </p>
+              </div>
+              <div className="absolute top-1/2 -left-2 -translate-x-1/2 -translate-y-1/2 rotate-[-90deg] flex flex-col items-center justify-center">
+                <h4 className="">2021</h4>
+                <p className="text-2xl leading-none font-light font-[Saans]">
+                  +
+                </p>
+              </div>
             </div>
           </div>
         </div>
