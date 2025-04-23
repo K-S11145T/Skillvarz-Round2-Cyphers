@@ -83,9 +83,9 @@ const Page2 = () => {
 
   return (
     <div className="flex-none w-screen min-h-screen bg-zinc-200 text-xl">
-      <div className="flex flex-col relative lg:flex-row items-center px-4 lg:px-10 justify-evenly w-full h-full py-10 lg:py-0 lg:h-screen">
+      <div className="flex flex-col relative lg:flex-row items-center px-4 lg:px-10 justify-evenly w-full md:min-h-[150%] py-10 lg:py-0 lg:h-screen">
         {/* Image Section */}
-        <div className="w-full lg:w-[65vh] h-[40vh] lg:h-[65vh] lg:ml-[-18%] mb-8 lg:mb-0 z-[9]">
+        <div className="w-full lg:w-[65vh] h-[30vh] lg:h-[65vh] lg:ml-[-18%] mb-8 lg:mb-0 z-[9]">
           <img
             className="w-full h-full object-cover"
             src="/Page-2/ModelGirl.webp"
@@ -94,12 +94,12 @@ const Page2 = () => {
         </div>
 
         {/* Vertical Text Section */}
-        <div className="absolute  w-[100%]  translate-x-[-10%] h-[15%]  -rotate-90 ">
-        <ScrollBasedMarquee text="Marshall – Marshall –" speed={200} />
+        <div className="lg:absolute  w-[100%]  translate-x-[-10%] h-[15%]  lg:-rotate-90 ">
+          <ScrollBasedMarquee text="Marshall – Marshall –" speed={200} />
         </div>
 
         {/* Content Section */}
-        <div className="w-full lg:w-[35%] text-base md:ml-0 lg:ml-38 lg:text-lg h-auto lg:h-[90%] px-4 lg:px-0">
+        <div className="w-full lg:w-[35%] mt-4 text-base md:ml-0 lg:ml-38 lg:text-lg h-auto lg:h-[90%] px-4 lg:px-0">
           <h1>Artist: Suki | Toronto</h1>
 
           <div className="relative">

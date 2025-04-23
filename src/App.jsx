@@ -108,7 +108,7 @@ const App = () => {
       e.preventDefault()
       const currentScroll = el.scrollLeft
       const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY
-      const target = currentScroll + delta * 8
+      const target = currentScroll + delta * 6
       animateScroll(target)
     }
 
