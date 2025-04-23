@@ -134,7 +134,7 @@ const Page1 = () => {
         </div>
       </div>
 
-      <div className="circle hidden absolute bottom-10 right-30 w-64 h-64 flex items-center justify-center rounded-full text-xs leading-none text-zinc-700 font-[Aux-mono] font-light border-1">
+      <div className="circle absolute bottom-10 right-30 w-64 h-64 flex items-center justify-center rounded-full text-xs leading-none text-zinc-700 font-[Aux-mono] font-light border-1">
         <p className="text-3xl font-light font-[Saans]">+</p>
 
         <div className="absolute -top-2 left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-0 flex flex-col items-center justify-center">
