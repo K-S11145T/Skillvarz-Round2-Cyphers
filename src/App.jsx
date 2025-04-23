@@ -51,7 +51,7 @@ const App = () => {
 
     if (isDesktop) {
       // Set explicit width for horizontal scroll
-      const pageCount = 6; // or get dynamically
+      const pageCount = 5; // or get dynamically
 
       gsap.set(content, {
         display: 'flex',
@@ -104,7 +104,7 @@ const App = () => {
       e.preventDefault()
       const currentScroll = el.scrollLeft
       const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY
-      const target = currentScroll + delta * 8
+      const target = currentScroll + delta * 4
       animateScroll(target)
     }
 
@@ -149,13 +149,12 @@ className="w-screen bg-zinc-700 h-screen overflow-x-hidden"
         <Page2 />
         <Page3 />
         <Page4 />
-        <Page5 />
-        <Footer />
+        <Page5 id="page5" />
         
 
  
       </div>
-      
+        <Footer />
     </div>
 
   )
