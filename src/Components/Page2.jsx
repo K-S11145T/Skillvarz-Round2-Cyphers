@@ -103,15 +103,15 @@ const Page2 = () => {
           <h1>Artist: Suki | Toronto</h1>
 
           <div className="relative">
-            <h1 className="text-2xl lg:text-4xl mt-3">
+            <h1 className="text-2xl font-[Aux-Mono] lg:text-4xl mt-3">
               Amplifying future icons in music
-              <span className="absolute top-0 lg:-top-2 right-0 lg:-right-2 text-lg lg:text-3xl">
+              <span className="absolute top-0 lg:-top-2 right-0 lg:-right-4 text-lg font-[Silk-Serif-Light-Italic] lg:text-3xl">
                 02
               </span>
             </h1>
           </div>
 
-          <p className="text-sm lg:text-lg mt-3">
+          <p className="text-sm text-zinc-500 lg:text-lg mt-3">
             Inspired by the jazz music she grew up hearing, Suki used her first
             guitar to play covers before experimenting with her own sound.
             Writing songs in her bedroom, and then broadcasting on Soundcloud,
@@ -126,13 +126,13 @@ const Page2 = () => {
 
             <div
               ref={circleRef}
-              className="circle flex items-center justify-center absolute top-1/4 left-1/2 w-54 h-54 bg-transparent border-1 border-zinc-900 rounded-full"
+              className="circle flex items-center justify-center absolute -top-1/3 left-1/2 w-64 h-64 text-xs leading-none text-zinc-700 font-[Aux-mono] font-light border-1 rounded-full"
             >
               <p className="text-3xl font-light font-[Saans]">+</p>
 
               <div className="absolute -top-2 left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-0 flex flex-col items-center justify-center">
                 <h4 className="">2021</h4>
-                <p className="text-2xl leading-none font-light font-[Saans]">
+                <p className="text-2xl  font-light font-[Saans]">
                   +
                 </p>
               </div>
