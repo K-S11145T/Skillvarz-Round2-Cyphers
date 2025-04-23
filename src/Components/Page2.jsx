@@ -20,7 +20,7 @@ const Page2 = () => {
 
     rotationTween.current = gsap.to(circleRef.current, {
       rotation: 360,
-      duration: 15, // Reduced from 15
+      duration: 12, // Reduced from 15
       ease: 'none',
       repeat: -1
     })
@@ -64,7 +64,7 @@ const Page2 = () => {
     
     // Auto reset to base speed
     const resetInterval = setInterval(() => {
-      if (Date.now() - lastScrollTime.current > 50) { // Reduced from 100
+      if (Date.now() - lastScrollTime.current > 40) { // Reduced from 100
         gsap.to(rotationTween.current, {
           timeScale: 1,
           duration: 0.3, // Reduced from 0.8
