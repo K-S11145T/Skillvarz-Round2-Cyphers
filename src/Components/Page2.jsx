@@ -1,6 +1,10 @@
 import React, { useRef, useEffect, useState } from "react";
 import { gsap } from "gsap";
+
 import ScrollBasedMarquee from "../Animations/ScrollBasedMarquee";
+
+import SplitText from "../Animations/SplitText";
+
 
 
 const Page2 = () => {
@@ -10,6 +14,45 @@ const Page2 = () => {
   const lastScrollPos = useRef(0);
   const velocityRef = useRef(0);
   const animationFrameId = useRef(null);
+  const animatedRef = useRef(null);
+
+  useEffect(() => {
+    const container = document.querySelector("[data-horizontal-scroll]");
+    if (!container || !animatedRef.current) return;
+  
+    const el = animatedRef.current;
+  
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: el,
+        scroller: container,
+        horizontal: true,
+     
+        start: "left 100%",
+        end: "+=1500",
+        // markers: true,
+      },
+    });
+  
+    // Phase 1 — Grow from right
+    tl.set(el, { transformOrigin: "right center" });
+    tl.fromTo(
+      el,
+      { scaleX: 0.6, x: 100 }, // starts shifted right and small from right
+      { scaleX: 1, x: 0, ease: "power2.out" }
+    );
+  
+    // Phase 2 — Hold full scale
+  
+    // Phase 3 — Shrink from left
+   
+  
+    return () => {
+      tl.scrollTrigger?.kill();
+      tl.kill();
+    };
+  }, []);
+  
 
   useEffect(() => {
     // Base rotation animation
@@ -82,15 +125,35 @@ const Page2 = () => {
   }, []);
 
   return (
-    <div className="flex-none w-screen min-h-screen bg-zinc-200 text-xl">
-      <div className="flex flex-col relative lg:flex-row items-center px-4 lg:px-10 justify-evenly w-full md:min-h-[150%] py-10 lg:py-0 lg:h-screen">
+    <div data-horizontal-scroll className="flex-none  w-screen min-h-screen bg-zinc-200 text-xl">
+      <div className="flex flex-col relative lg:flex-row items-center px-4 lg:px-10 justify-evenly w-full md:h-[150%] py-10 lg:py-0 lg:h-screen">
         {/* Image Section */}
-        <div className="w-full lg:w-[65vh] h-[30vh] lg:h-[65vh] lg:ml-[-18%] mb-8 lg:mb-0 z-[9]">
-          <img
-            className="w-full h-full object-cover"
-            src="/Page-2/ModelGirl.webp"
-            alt="Artist"
-          />
+        <div  ref={animatedRef} className="relative bg-zinc-300 w-full lg:w-[70vh] h-[30vh] lg:h-[65vh] lg:ml-[-18%] mb-8 lg:mb-0 z-[9] ">
+          <div className="w-full h-full  overflow-hidden bg-zinc-300 relative isolation">
+            <img
+              className="w-full h-full object-cover relative z-[1]"
+              src="/Page-2/ModelGirl.webp"
+              alt="Artist"
+            />
+
+
+            <div className="absolute -bottom-1 w-full z-[3]">
+              <SplitText text="Amplifying future" />
+            </div>
+          </div>
+          <h1 className="text-3xl text-zinc-500 absolute -top-4 -left-2 font-light font-[Saans]">
+            +
+          </h1>
+          <h1 className="text-3xl text-zinc-500 absolute -top-4 -right-2 font-light font-[Saans]">
+            +
+          </h1>
+          <h1 className="text-3xl text-zinc-500 absolute -bottom-4 -left-2 font-light font-[Saans]">
+            +
+          </h1>
+          <h1 className="text-3xl text-zinc-500 absolute -bottom-4 -right-2 font-light font-[Saans]">
+            +
+          </h1>
+
         </div>
 
         {/* Vertical Text Section */}
@@ -99,7 +162,7 @@ const Page2 = () => {
         </div>
 
         {/* Content Section */}
-        <div className="w-full lg:w-[35%] mt-4 text-base md:ml-0 lg:ml-38 lg:text-lg h-auto lg:h-[90%] px-4 lg:px-0">
+        <div className="w-full lg:w-[35%] md:mt-6 text-base md:ml-0 lg:ml-38 lg:text-lg h-auto lg:h-[90%] px-4 lg:px-0">
           <h1>Artist: Suki | Toronto</h1>
 
           <div className="relative">
@@ -126,7 +189,7 @@ const Page2 = () => {
 
             <div
               ref={circleRef}
-              className="circle flex items-center justify-center absolute -top-1/3 left-1/2 w-64 h-64 text-xs leading-none text-zinc-700 font-[Aux-mono] font-light border-1 rounded-full"
+              className="circle flex items-center justify-center absolute -top-1/3 left-1/2 w-64 h-64 text-xs  text-zinc-700 font-[Aux-mono] font-light border-1 rounded-full"
             >
               <p className="text-3xl font-light font-[Saans]">+</p>
 
