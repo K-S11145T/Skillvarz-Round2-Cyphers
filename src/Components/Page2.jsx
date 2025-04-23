@@ -15,10 +15,12 @@ const Page2 = () => {
     // Base rotation animation
     rotationTween.current = gsap.to(circleRef.current, {
       rotation: 360,
+
       duration: 15,
       ease: "power1.inOut",
       repeat: -1,
     });
+
     const updateRotation = () => {
       const container = document.querySelector("[data-horizontal-scroll]");
       if (!container) return;
@@ -58,8 +60,10 @@ const Page2 = () => {
 
     // Auto reset to base speed
     const resetInterval = setInterval(() => {
+
       if (Date.now() - lastScrollTime.current > 50) {
         // Reduced from 100
+
         gsap.to(rotationTween.current, {
           timeScale: 1,
           duration: 0.3, // Reduced from 0.8
