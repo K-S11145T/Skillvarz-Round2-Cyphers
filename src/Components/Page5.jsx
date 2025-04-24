@@ -43,7 +43,7 @@ const Page5 = () => {
       {/* Bottom container */}
       <div className='BottomContainer w-[70%] h-[20%] absolute right-0 bottom-0 flex'>
         <div className='Price w-[50%] bg-[#1E1E1E] text-[8vw] flex -center justify-center h-full font-[Silk-Serif-Light-Italic]'>$2999.</div>
-        <div className='ProductNames w-[50%] h-full p-2'>
+        <div className='ProductNames w-[50%] h-full p-6'>
           <div className='justify-between flex h-18 items-center border-b-2 border-[#FFFFFF]'>
             <h1 className='text-3xl font-[Montserrat]'>ACTION-III</h1>
             <h3 className='text-3xl font-[Silk-Serif-Light-Italic]'>01</h3>
