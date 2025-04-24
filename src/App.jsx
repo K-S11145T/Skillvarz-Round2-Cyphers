@@ -54,7 +54,7 @@ const App = () => {
 
     if (isDesktop) {
       // Set explicit width for horizontal scroll
-      const pageCount = 6; // or get dynamically
+      const pageCount = 5; // or get dynamically
 
       gsap.set(content, {
         display: "flex",
@@ -174,12 +174,12 @@ const App = () => {
         <Page4 />
 
         <Page5 />
-        <Footer />
+        {/* <Footer /> */}
         
 
  
       </div>
-      
+        {/* <Footer /> */}
     </div>
   );
 };
