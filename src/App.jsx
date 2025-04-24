@@ -174,12 +174,12 @@ const App = () => {
         <Page4 />
 
         <Page5 />
-        <Footer />
+        {/* <Footer /> */}
         
 
  
       </div>
-        <Footer />
+        {/* <Footer /> */}
     </div>
   );
 };
