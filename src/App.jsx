@@ -108,7 +108,7 @@ const App = () => {
       e.preventDefault()
       const currentScroll = el.scrollLeft
       const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY
-      const target = currentScroll + delta * 6
+      const target = currentScroll + delta * 5
       animateScroll(target)
     }
 
@@ -174,12 +174,12 @@ const App = () => {
         <Page4 />
 
         <Page5 />
-        {/* <Footer /> */}
+        <Footer />
         
 
  
       </div>
-        {/* <Footer /> */}
+ 
     </div>
   );
 };
