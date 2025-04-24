@@ -7,6 +7,7 @@ import Page4 from "./Components/Page4";
 import Page5 from "./Components/Page5";
 import Footer from "./Components/Footer";
 import Navbar from "./Components/Navbar";
+import Loader from "./Components/Loader";
 
 const BREAKPOINT = 768;
 
@@ -104,14 +105,13 @@ const App = () => {
     if (!el) return;
 
     const handleWheel = (e) => {
-
-      e.preventDefault()
-      const currentScroll = el.scrollLeft
-      const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY
-      const target = currentScroll + delta * 6
-      animateScroll(target)
-    }
-
+      e.preventDefault();
+      const currentScroll = el.scrollLeft;
+      const delta =
+        Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+      const target = currentScroll + delta * 6;
+      animateScroll(target);
+    };
 
     const handleKeyDown = (e) => {
       if (
@@ -159,7 +159,7 @@ const App = () => {
   return (
     <div
       ref={scrollContainerRef}
-      className="w-screen bg-zinc-700 h-screen overflow-x-hidden"
+      className="w-screen bg-zinc-700 h-screen overflow-x-hidden select-none"
       tabIndex={0}
       data-horizontal-scroll
     >
@@ -167,19 +167,15 @@ const App = () => {
         ref={contentRef}
         className={isDesktop ? "flex relative" : "flex flex-col relative"}
       >
+        <Loader />
         <Navbar />
         <Page1 />
         <Page2 />
         <Page3 />
         <Page4 />
-
         <Page5 />
         <Footer />
-        
-
- 
       </div>
-      
     </div>
   );
 };

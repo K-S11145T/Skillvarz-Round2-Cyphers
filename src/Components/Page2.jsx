@@ -85,7 +85,7 @@ const Page2 = () => {
     <div className="flex-none w-screen min-h-screen bg-zinc-200 text-xl">
       <div className="flex flex-col relative lg:flex-row items-center px-4 lg:px-10 justify-evenly w-full md:min-h-[150%] py-10 lg:py-0 lg:h-screen">
         {/* Image Section */}
-        <div className="w-full lg:w-[65vh] h-[30vh] lg:h-[65vh] lg:ml-[-18%] mb-8 lg:mb-0 z-[9]">
+        <div className="w-full lg:w-[65vh] h-[30vh] lg:h-[65vh] lg:ml-[-18%] mb-8 lg:mb-0 z-[2]">
           <img
             className="w-full h-full object-cover"
             src="/Page-2/ModelGirl.webp"
