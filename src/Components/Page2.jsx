@@ -157,11 +157,11 @@ const Page2 = () => {
 
         {/* Vertical Text Section */}
         <div className="lg:absolute  w-[100%]  translate-x-[-10%] h-[15%]  lg:-rotate-90 ">
-          <ScrollBasedMarquee text="Marshall – Marshall –" speed={100} />
+          <ScrollBasedMarquee text="Marshall – Marshall –" speed={500} />
         </div>
 
         {/* Content Section */}
-        <div className="w-full lg:w-[35%] md:mt-6 text-base md:ml-0 lg:ml-38 lg:text-lg h-auto lg:h-[90%] px-4 lg:px-0">
+        <div className="w-full lg:w-[40%] md:mt-6 lg:mt-28 text-base md:ml-0 lg:ml-38 lg:text-lg h-auto lg:h-[90%] px-4 lg:px-0">
           <h1>Artist: Suki | Toronto</h1>
 
           <div className="relative">
@@ -173,7 +173,7 @@ const Page2 = () => {
                 delay={0.15}
               />
 
-              <span className="absolute top-0 lg:-top-2 right-0 lg:-right-4 text-lg font-[Silk-Serif-Light-Italic] lg:text-3xl">
+              <span className="absolute top-0 lg:-top-2 right-0 lg:-right-4 text-lg font-[Silk-Serif-Light-Italic] lg:text-4xl">
                 02
               </span>
             </h1>
