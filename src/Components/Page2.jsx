@@ -166,13 +166,13 @@ const Page2 = () => {
 
           <div className="relative">
             <h1 className="text-2xl font-[Aux-Mono] lg:text-4xl mt-3">
-            <BlurText
-  text="Amplifying future icons in music"
-  animateBy="words"
-  direction="bottom"
-  delay={0.15}
-  triggerOn="mount" // Add this line
-/>
+              <BlurText
+                text="Amplifying future icons in music"
+                animateBy="words"
+                direction="bottom"
+                delay={0.15}
+                triggerOn="mount" // Add this line
+              />
 
               <span className="absolute top-0 lg:-top-2 right-0 lg:-right-4 text-lg font-[Silk-Serif-Light-Italic] lg:text-4xl">
                 02
@@ -189,10 +189,9 @@ const Page2 = () => {
           </p>
 
           <div className="flex relative flex-col lg:flex-row gap-3  lg:items-start items-center justify-between mt-5 gap-4">
-            <button className="px-3  font-[Aux-Mono] relative py-1 overflow-hidden group cursor-pointer mt-5 bg-black text-white rounded-full w-full lg:w-auto text-center">
-              <h1 className="group-hover:translate-y-[150%]  duration-300 translate-y-[0%]">
-                {" "}
-                Read More{" "}
+            <button className="px-6  font-[Aux-Mono] relative py-2 overflow-hidden group cursor-pointer mt-5 bg-black text-white rounded-full w-full lg:w-auto text-center">
+              <h1 className="group-hover:translate-y-[150%] duration-300 translate-y-[0%]">
+                Read More
               </h1>
 
               <h1 className="absolute bottom-1/2 text-zinc-300  group-hover:translate-y-[50%] duration-300 translate-y-[-150%]">
