@@ -23,35 +23,36 @@ const App = () => {
 
   useEffect(() => {
     if (!isDesktop || !scrollContainerRef.current) return;
-  
+
     const container = scrollContainerRef.current;
-    
+
     const updateProgress = () => {
       const scrollWidth = container.scrollWidth - container.clientWidth;
       const progress = scrollWidth > 0 ? container.scrollLeft / scrollWidth : 0;
       setScrollProgress(progress);
     };
-  
+
     // GSAP ticker for smooth progress updates
     gsap.ticker.add(updateProgress);
     return () => gsap.ticker.remove(updateProgress);
   }, [isDesktop]);
 
   // Handle scroll animation with GSAP
-  const animateScroll = useCallback((target, duration = 1, ease = "power2.out") => {
-    if (isScrollLocked) return;// Don't animate if locked
-    
-    if (animationRef.current) {
-      animationRef.current.kill();
-    }
+  const animateScroll = useCallback(
+    (target, duration = 1, ease = "power2.out") => {
+      if (isScrollLocked) return; // Don't animate if locked
 
-    if (duration < 0.3) {
-      scrollContainerRef.current.scrollTo({
-        left: target,
-        behavior: "auto",
-      });
-      return;
-    }
+      if (animationRef.current) {
+        animationRef.current.kill();
+      }
+
+      if (duration < 0.3) {
+        scrollContainerRef.current.scrollTo({
+          left: target,
+          behavior: "auto",
+        });
+        return;
+      }
 
       animationRef.current = gsap.to(scrollContainerRef.current, {
         scrollLeft: target,
@@ -64,7 +65,9 @@ const App = () => {
             scrollContainerRef.current.scrollLeft;
         },
       });
-    }, [isScrollLocked]);
+    },
+    [isScrollLocked]
+  );
 
   // Initialize responsive layout
   useEffect(() => {
@@ -74,7 +77,7 @@ const App = () => {
     if (isDesktop) {
       gsap.set(content, {
         display: "flex",
-        width: `${5 * 100}vw`,
+        width: `${6 * 100}vw`,
       });
       gsap.set(container, {
         overflowX: isScrollLocked ? "hidden" : "auto", // Disable overflow when locked
@@ -106,14 +109,14 @@ const App = () => {
         e.preventDefault();
         return;
       }
-      
+
       e.preventDefault();
       const currentScroll = el.scrollLeft;
-      const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+      const delta =
+        Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
       const target = currentScroll + delta * 5;
       animateScroll(target);
     };
-
 
     const handleKeyDown = (e) => {
       if (
@@ -149,7 +152,6 @@ const App = () => {
       scrollActions[e.key]?.();
     };
 
-   
     el.addEventListener("wheel", handleWheel, { passive: false });
     window.addEventListener("keydown", handleKeyDown);
 
@@ -172,8 +174,6 @@ const App = () => {
   useEffect(() => {
     // Lock scroll when component mounts
     lockScroll();
-    
-   
   }, []);
 
   return (
@@ -200,13 +200,13 @@ const App = () => {
           <Circle />
         </div>
         <Navbar scrollProgress={scrollProgress} />
-        <Page1 
-  onComplete={() => {
-    setIsPage1Complete(true);
-    unlockScroll(); // Also call unlockScroll here for redundancy
-  }}
-  unlockScroll={unlockScroll}
-/>
+        <Page1
+          onComplete={() => {
+            setIsPage1Complete(true);
+            unlockScroll(); // Also call unlockScroll here for redundancy
+          }}
+          unlockScroll={unlockScroll}
+        />
         <Page2 />
         <Page3 />
         <Page4 />

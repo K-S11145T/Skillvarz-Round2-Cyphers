@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import Navbar from "./Navbar";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import InversionLens from "./InversionLens/InversionLens";
+
 
 const Page1 = ({ onComplete, unlockScroll }) => {
   const img1 = useRef(null);
