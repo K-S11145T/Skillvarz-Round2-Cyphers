@@ -42,3 +42,8 @@
   font-family: "Silk-Serif-Light-Italic";
   src: url("./font/Silk-Serif-Light-Italic.otf");
 }
+
+@font-face {
+  font-family: "Silk-Serif-Light";
+  src: url("./font/SilkSerif-TRIAL-Light.ttf");
+}
