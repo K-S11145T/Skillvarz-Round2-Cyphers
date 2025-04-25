@@ -48,12 +48,12 @@ const SplitText = ({ text }) => {
   return (
     <div
       ref={textRef}
-      className="flex justify-center gap-[3px] items-center whitespace-nowrap"
+      className="flex justify-center md:gap-0 lg:gap-[3px] items-center whitespace-nowrap"
     >
       {text.split("").map((letter, index) => (
         <span
           key={index}
-          className="split-char inline-block text-5xl font-semibold text-white"
+          className="split-char inline-block lg:text-5xl font-semibold text-white"
         >
           {letter === " " ? "\u00A0" : letter}
         </span>

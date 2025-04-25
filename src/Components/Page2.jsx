@@ -122,7 +122,7 @@ const Page2 = () => {
   return (
     <div
       data-horizontal-scroll
-      className="flex-none  w-screen min-h-screen bg-zinc-200 text-xl"
+      className="flex-none w-screen lg:min-h-screen bg-zinc-200 text-xl"
     >
       <div className="flex flex-col relative lg:flex-row items-center px-4 lg:px-10 justify-evenly w-full md:h-[150%] py-10 lg:py-0 lg:h-screen">
         {/* Image Section */}
@@ -156,7 +156,7 @@ const Page2 = () => {
         </div>
 
         {/* Vertical Text Section */}
-        <div className="lg:absolute  w-[100%]  translate-x-[-10%] h-[15%]  lg:-rotate-90 ">
+        <div className="lg:absolute  w-[100%]  lg:translate-x-[-10%] h-[15%]  lg:-rotate-90 ">
           <ScrollBasedMarquee text="Marshall – Marshall –" speed={500} />
         </div>
 
@@ -186,15 +186,17 @@ const Page2 = () => {
             Suki started sharing her songs without revealing her face, letting
             the music speak for itself.
           </p>
+ 
+          <div className="flex relative flex-col lg:flex-row gap-3  lg:items-start items-center justify-between mt-5 gap-4">
+            <button className="px-3 relative py-1 overflow-hidden group cursor-pointer mt-5 bg-black text-white rounded-full w-full lg:w-auto text-center">
+              <h1 className="group-hover:translate-y-[150%]  duration-300 translate-y-[0%]"> Read More </h1>
 
-          <div className="flex relative flex-col lg:flex-row gap-3 lg:items-start items-center justify-between mt-5 gap-4">
-            <button className="px-3 py-1 mt-5 bg-black text-white rounded-full w-full lg:w-auto text-center">
-              Read More
+              <h1 className="absolute bottom-1/2 text-zinc-300  group-hover:translate-y-[50%] duration-300 translate-y-[-150%]">Read More</h1>
             </button>
 
             <div
               ref={circleRef}
-              className="circle flex items-center justify-center absolute -top-1/3 left-1/2 w-64 h-64 text-xs  text-zinc-700 font-[Aux-mono] font-light border-1 rounded-full"
+              className="circle pointer-events-none flex items-center justify-center absolute -top-1/3 left-1/2 w-64 h-64 text-xs  text-zinc-700 font-[Aux-mono] font-light border-1 rounded-full"
             >
               <p className="text-3xl font-light font-[Saans]">+</p>
 
