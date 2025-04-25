@@ -38,7 +38,7 @@ const Page5 = () => {
   // Initial animation on component mount
   useEffect(() => {
     gsap.from(detailsRef.current, {
-      y: 20,
+      y: 50,
       opacity: 0,
       duration: 0.8,
       ease: "back.out(1.2)"
@@ -64,7 +64,7 @@ const Page5 = () => {
     
     // Animate in new content from below
     tl.fromTo(detailsRef.current, 
-      { y: 20, opacity: 0 },
+      { y: 50, opacity: 0 },
       {
         y: 0,
         opacity: 1,
