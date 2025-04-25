@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { SlArrowRight } from "react-icons/sl";
+import BlurText from "../Animations/BlurText";
 
 const Page5 = () => {
   const products = [
@@ -53,7 +54,14 @@ const Page5 = () => {
             <span>Speakers</span>
 
             <div className='w-full h-20 flex items-start justify-between lg:mt-5 2xl:mt-12'>
-              <h1 className='ProdcutModel lg:text-4xl xl:text-5xl font-[Aux-Mono]'>{selectedProduct.model}</h1>
+              <h1 className='ProdcutModel xl:text-4xl 2xl:text-5xl font-[Aux-Mono]'>
+                <BlurText
+                                text={selectedProduct.model}
+                                animateBy="letters"
+                                direction="bottom"
+                                delay={0.05}
+                              />
+              </h1>
               <h3 className='Ratings flex border-b-2 gap-2 border-[#A29C9C] 2xl:text-3xl lg:text-2xl font-[Silk-Serif-Light-Italic] mr-8'>
                 {selectedProduct.ratings.split(" ")[0]}
                 <sup className='text-[#000000] text-sm lg:text-base'>Stars</sup>
@@ -61,13 +69,16 @@ const Page5 = () => {
             </div>
 
             <div className='w-full h-90'>
-              <h4 className='ProductDetails font-[Saans] lg:text-lg lg:mt-[-7%] 2xl:mt-0 text-[#A29C9C] lg:w-[85%] 2xl:w-[75%] lg:leading-6 2xl:leading-10'>{selectedProduct.details}</h4>
+              <h4 className='ProductDetails font-[Saans] lg:text-lg lg:mt-[-7%] h-[20vh] 2xl:mt-0 text-[#A29C9C] lg:w-[85%] 2xl:w-[75%] lg:leading-6 2xl:leading-10'>{selectedProduct.details}</h4>
               <div className='flex justify-between w-[26%] lg:w-[32%] lg:mt-5 2xl:mt-12'>
                 <div className='circle-1 lg:h-6 lg:w-6 2xl:h-10 2xl:w-10 rounded-full bg-[#060606]'></div>
                 <div className='circle-2 lg:h-6 lg:w-6 2xl:h-10 2xl:w-10 rounded-full bg-[#824820]'></div>
                 <div className='circle-3 lg:h-6 lg:w-6 2xl:h-10 2xl:w-10 rounded-full bg-[#E8E0D5]'></div>
               </div>
-              <div className='Readmore font-[Aux-Mono] lg:h-fit lg:w-fit lg:px-3 lg:py-2 2xl:px-0 2xl:py-0 2xl:h-14 2xl:w-50 bg-[#383838] rounded-full flex items-center justify-center lg:text-sm 2xl:text-base text-[#EDEDED] lg:mt-3 2xl:mt-10'>Read more</div>
+              <div className='Readmore relative group overflow-hidden font-[Aux-Mono] cursor-pointer lg:h-fit lg:w-fit lg:px-3 lg:py-2 2xl:px-0 2xl:py-0 2xl:h-14 2xl:w-50 bg-[#383838] rounded-full flex items-center justify-center lg:text-sm 2xl:text-base text-[#EDEDED] lg:mt-3 2xl:mt-10 '>
+             <h1 className='group-hover:translate-y-[150%]  duration-300 translate-y-[0%]'>    Read more  </h1>
+             <h1 className="absolute bottom-1/2 text-zinc-300  group-hover:translate-y-[50%] duration-300 translate-y-[-150%]">Read More</h1>
+              </div>
             </div>
 
             <div className='delivery-container w-full lg:h-[20] lg:text-sm 2xl:text-base lg:mt-[-32%] 2xl:mt-0 2xl:h-30 pr-8 flex 2xl:items-end 2xl:justify-end flex-col'>  
