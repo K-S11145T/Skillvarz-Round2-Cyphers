@@ -4,14 +4,14 @@ import BlurText from '../Animations/BlurText';
 
 const products = [
   { name: "Monitor 3", image: "./Page-3/legacy.jpg" },
-  { name: "Major V.", image: "./Page-3/homeImg2.jpg" },
-  { name: "Motif 2", image: "./Page-3/legacy.jpg" },
-  { name: "Minor 4", image: "./Page-3/homeImg2.jpg" },
-  { name: "Motif Black 3", image: "./Page-3/legacy.jpg" },
-  { name: "Mode EQ", image: "./Page-3/homeImg2.jpg" },
-  { name: "Amps", image: "./Page-3/legacy.jpg" },
-  { name: "Solid Mars Drums", image: "./Page-3/homeImg2.jpg" },
-  { name: "Marshall Speakers", image: "./Page-3/legacy.jpg" },
+  { name: "Major V.", image: "./Page-3/BlueHoodie.jpg" },
+  { name: "Motif 2", image: "./Page-3/img3.jpg" },
+  { name: "Minor 4", image: "./Page-3/img4.jpg" },
+  { name: "Motif Black 3", image: "./Page-3/img5.jpg" },
+  { name: "Mode EQ", image: "./Page-3/img6.jpg" },
+  { name: "Amps", image: "./Page-3/img7.jpg" },
+  { name: "Solid Mars Drums", image: "./Page-3/img8.jpg" },
+  { name: "Marshall Speakers", image: "./Page-3/Reddish.jpg" },
 ];
 
 const Page3 = () => {
