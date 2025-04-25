@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-
-import Navbar from "./Navbar";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import InversionLens from "./InversionLens/InversionLens";
 
-const Page1 = ({ onComplete, unlockScroll }) => {
+const Page1 = ({
+  onComplete,
+  unlockScroll,
+  setHomeImgHover,
+  setHomeImgClick,
+}) => {
   const img1 = useRef(null);
   const img2 = useRef(null);
   const img3 = useRef(null);
@@ -14,13 +16,33 @@ const Page1 = ({ onComplete, unlockScroll }) => {
   const img6 = useRef(null);
   const h1Ref = useRef(null);
   const imgDiv = useRef(null);
-  const circle = useRef(null);
-  const circleTextRef = useRef(null);
   const [isImgHovered, setIsImgHovered] = useState(false);
   const [isImgActive, setIsImgActive] = useState(false);
   const [isMusicActive, setIsMusicActive] = useState(false);
   const barsRef = useRef([]);
   const audioRef = useRef(null);
+
+  const cursorRef = useRef(null);
+  const coloredImgRef = useRef(null);
+  const [showCursorImg, setShowCursorImg] = useState(false);
+
+  useEffect(() => {
+    const moveCursor = (e) => {
+      if (cursorRef.current) {
+        cursorRef.current.style.left = `${e.clientX}px`;
+        cursorRef.current.style.top = `${e.clientY}px`;
+      }
+    };
+
+    if (isImgActive) {
+      window.addEventListener("mousemove", moveCursor);
+    } else {
+      window.removeEventListener("mousemove", moveCursor);
+      setShowCursorImg(false);
+    }
+
+    return () => window.removeEventListener("mousemove", moveCursor);
+  }, [isImgActive]);
 
   useEffect(() => {
     if (isMusicActive) {
@@ -28,7 +50,6 @@ const Page1 = ({ onComplete, unlockScroll }) => {
         gsap.to(bar, {
           scaleY: () => Math.random() * 2,
           repeat: -1,
-
           ease: "power1.inOut",
           duration: 0.2 + Math.random(),
           delay: index * 0.05,
@@ -36,7 +57,6 @@ const Page1 = ({ onComplete, unlockScroll }) => {
         });
       });
     } else {
-      // Reset bars to scaleY = 1 and kill animation
       barsRef.current.forEach((bar) => {
         gsap.killTweensOf(bar); // stop the animation
         gsap.to(bar, {
@@ -70,26 +90,6 @@ const Page1 = ({ onComplete, unlockScroll }) => {
   };
 
   useGSAP(() => {
-    // gsap.fromTo(
-    //   circle.current,
-    //   { scale: 0, opacity: 0 },
-    //   { scale: 1, opacity: 1, duration: 1, ease: "power2.out", delay: 1 }
-    // );
-
-    // gsap.to(circle.current, {
-    //   rotate: -360,
-    //   duration: 15,
-    //   ease: "linear",
-    //   repeat: -1,
-    // });
-
-    // gsap.to(circleTextRef.current, {
-    //   rotate: 360, // opposite rotation
-    //   duration: 15,
-    //   ease: "linear",
-    //   repeat: -1,
-    // });
-
     const tl = gsap.timeline({ delay: 6.8 });
     tl.from(
       [
@@ -107,19 +107,6 @@ const Page1 = ({ onComplete, unlockScroll }) => {
         ease: "power2.out",
       }
     );
-
-    document.body.style.overflowX = "hidden";
-
-    // const moveCursor = (e) => {
-    //   gsap.to(circle.current, {
-    //     x: e.clientX - 112, // adjust for center (half of w-64)
-    //     y: e.clientY - 112,
-    //     duration: 0.4,
-    //     ease: "power2.out",
-    //   });
-    // };
-    // window.addEventListener("mousemove", moveCursor);
-    // return () => window.removeEventListener("mousemove", moveCursor);
   }, []);
 
   const hoverIn = (el) => {
@@ -139,25 +126,36 @@ const Page1 = ({ onComplete, unlockScroll }) => {
   };
 
   const handleImgClick = () => {
-    console.log("Image clicked - attempting to unlock scroll");
-    setIsImgActive(true);
-    document.body.style.overflow = "auto";
-    
+    // console.log("Image clicked - attempting to unlock scroll");
+
+    setHomeImgClick(false);
+    // document.body.style.overflow = "auto";
+
     try {
       const tl = gsap.timeline({
         onComplete: () => {
-          console.log("Animation complete - calling onComplete and unlockScroll");
           onComplete();
           unlockScroll();
-        }
+        },
       });
-      
-      tl.to(imgDiv.current, {
-        height: "100vh",
-        width: "100vw",
-        ease: "power2.out",
-        duration: 0.9,
-      });
+      if (!isImgActive) {
+        setIsImgActive(true);
+        tl.to(imgDiv.current, {
+          height: "100vh",
+          width: "100vw",
+          ease: "power2.out",
+          duration: 0.9,
+        });
+      }
+      if (isImgActive) {
+        setIsImgActive(false);
+        tl.to(imgDiv.current, {
+          height: "48vh",
+          width: "40vw",
+          ease: "power2.out",
+          duration: 0.9,
+        });
+      }
     } catch (error) {
       console.error("Error in handleImgClick:", error);
     }
@@ -165,45 +163,19 @@ const Page1 = ({ onComplete, unlockScroll }) => {
 
   const handleEnter = () => {
     setIsImgHovered(true);
-    // gsap.to(circle.current, {
-    //   scale: 1.2,
-    //   duration: 0.3,
-    //   backgroundColor: "#transparent",
-    //   color: "#fff",
-    // });
-    // gsap.to(img4.current, {
-    //   scale: 1.1,
-    //   ease: "power2.out",
-    //   duration: 0.3,
-    // });
+    setHomeImgHover(true);
   };
 
   const handleLeave = () => {
     setIsImgHovered(false);
-    // gsap.to(circle.current, {
-    //   scale: 1,
-    //   duration: 0.3,
-    //   backgroundColor: "transparent",
-    //   color: "#1E1E1E",
-    // });
-    // gsap.to(img4.current, {
-    //   scale: 1,
-    //   ease: "power2.out",
-    //   duration: 0.3,
-    // });
+    setHomeImgHover(false);
   };
 
   return (
     <div className="flex-none z-[8]  w-screen h-screen relative bg-[#EDEDED] text-black flex items-end justify-start px-8 pb-5">
-      {/* <InversionLens src={"./Page-1/LandingPageModelColored.png"} /> */}
       {/* Top-right logo */}
 
-      <audio
-        ref={audioRef}
-        src="/Page-1/Music.ogg"
-        loop
-        preload="auto"
-      />
+      <audio ref={audioRef} src="/Page-1/Music.ogg" loop preload="auto" />
       <div
         className="flex fixed px-2 py-1 font-thin rounded-full items-center  gap-1 justify-center 
   text-[#1E1E1E] absolute bottom-10 right-20 z-[9990] scale-[120%] 
@@ -236,13 +208,14 @@ const Page1 = ({ onComplete, unlockScroll }) => {
       <img
         src="./Page-1/Marshall-Logo.png"
         alt=""
-        className="marshall-logo h-20 object-cover absolute right-10 top-3"
+        className="marshall-logo h-20 object-cover absolute right-10 top-5"
       />
 
       {/* Text bottom */}
       <div
-        className={`absolute bottom-5 z-[23] transition-all duration-[0.7] ${isImgActive ? "text-zinc-100" : "text-zinc-900"
-          }`}
+        className={`absolute pointer-events-none bottom-5 z-[23] transition-all duration-[0.7] ${
+          isImgActive ? "text-zinc-100" : "text-zinc-900"
+        }`}
       >
         <h4 className="w-[30%] underline font-[Saans] mb-5 text-sm">
           Signature Marshall sound built for music lovers who crave rich,
@@ -269,7 +242,7 @@ const Page1 = ({ onComplete, unlockScroll }) => {
         onClick={() => handleImgClick()}
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
-        className="absolute z-[20] top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 flex flex-col justify-center  w-[40vw] h-[48vh] cursor-pointer overflow-hidden"
+        className="absolute z-[20] top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 flex flex-col justify-center  w-[40vw] h-[48vh] cursor-pointer"
       >
         <img
           ref={img4}

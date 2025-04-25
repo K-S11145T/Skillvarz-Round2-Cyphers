@@ -15,26 +15,29 @@ const BREAKPOINT = 768;
 const App = () => {
   const scrollContainerRef = useRef(null);
   const contentRef = useRef(null);
+  const [homeImgHover, setHomeImgHover] = useState(false);
+  const [homeImgClick, setHomeImgClick] = useState(false);
   const [isPage1Complete, setIsPage1Complete] = useState(false);
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= BREAKPOINT);
   const [isScrollLocked, setIsScrollLocked] = useState(true);
   const animationRef = useRef(null);
 
   // Handle scroll animation with GSAP
-  const animateScroll = useCallback((target, duration = 1, ease = "power2.out") => {
-    if (isScrollLocked) return;// Don't animate if locked
-    
-    if (animationRef.current) {
-      animationRef.current.kill();
-    }
+  const animateScroll = useCallback(
+    (target, duration = 1, ease = "power2.out") => {
+      if (isScrollLocked) return; // Don't animate if locked
 
-    if (duration < 0.3) {
-      scrollContainerRef.current.scrollTo({
-        left: target,
-        behavior: "auto",
-      });
-      return;
-    }
+      if (animationRef.current) {
+        animationRef.current.kill();
+      }
+
+      if (duration < 0.3) {
+        scrollContainerRef.current.scrollTo({
+          left: target,
+          behavior: "auto",
+        });
+        return;
+      }
 
       animationRef.current = gsap.to(scrollContainerRef.current, {
         scrollLeft: target,
@@ -47,7 +50,9 @@ const App = () => {
             scrollContainerRef.current.scrollLeft;
         },
       });
-    }, [isScrollLocked]);
+    },
+    [isScrollLocked]
+  );
 
   // Initialize responsive layout
   useEffect(() => {
@@ -89,14 +94,14 @@ const App = () => {
         e.preventDefault();
         return;
       }
-      
+
       e.preventDefault();
       const currentScroll = el.scrollLeft;
-      const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+      const delta =
+        Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
       const target = currentScroll + delta * 5;
       animateScroll(target);
     };
-
 
     const handleKeyDown = (e) => {
       if (
@@ -132,7 +137,6 @@ const App = () => {
       scrollActions[e.key]?.();
     };
 
-   
     el.addEventListener("wheel", handleWheel, { passive: false });
     window.addEventListener("keydown", handleKeyDown);
 
@@ -155,8 +159,6 @@ const App = () => {
   useEffect(() => {
     // Lock scroll when component mounts
     lockScroll();
-    
-   
   }, []);
 
   return (
@@ -177,19 +179,21 @@ const App = () => {
             top: "0%",
             left: "0%",
             transform: "translate(-50%, -50%)",
-            zIndex: "1000",
+            zIndex: "30",
           }}
         >
-          <Circle />
+          <Circle homeImgHover={homeImgHover} homeImgClick={homeImgClick} />
         </div>
         <Navbar />
-        <Page1 
-  onComplete={() => {
-    setIsPage1Complete(true);
-    unlockScroll(); // Also call unlockScroll here for redundancy
-  }}
-  unlockScroll={unlockScroll}
-/>
+        <Page1
+          onComplete={() => {
+            setIsPage1Complete(true);
+            unlockScroll();
+          }}
+          unlockScroll={unlockScroll}
+          setHomeImgHover={setHomeImgHover}
+          setHomeImgClick={setHomeImgClick}
+        />
         <Page2 />
         <Page3 />
         <Page4 />

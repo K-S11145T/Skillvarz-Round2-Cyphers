@@ -5,6 +5,7 @@ import React, { useRef } from "react";
 const Loader = () => {
   const circle = useRef(null);
   const imgDiv = useRef(null);
+  const marshallH2 = useRef(null);
   const artistRef = useRef(null);
   const artist2Ref = useRef(null);
   const productsRef = useRef(null);
@@ -66,14 +67,11 @@ const Loader = () => {
   useGSAP(() => {
     // const circleTimeline = gsap.timeline();
     const artistTimeline = gsap.timeline();
-    const artist2Timeline = gsap.timeline();
-    const productsTimeline = gsap.timeline();
 
     gsap.to(circle.current, {
-      rotation: 360, // Rotate 360 degrees
-      duration: 5, // Duration for one full rotation
-      ease: "linear", // Smooth linear rotation
-      repeat: -1, // Infinite loop
+      rotation: 360,
+      duration: 5,
+      ease: "linear",
     });
 
     const circleTimeline = gsap.timeline();
@@ -119,6 +117,13 @@ const Loader = () => {
       .to(imgDiv.current, {
         scale: 1,
         duration: 0.4,
+      })
+      .to(circle.current, {
+        opacity: 0,
+        display: "none",
+      })
+      .to(marshallH2.current, {
+        opacity: 0,
       });
 
     circleTimeline
@@ -252,7 +257,10 @@ const Loader = () => {
           className="w-full h-full object-cover"
         />
 
-        <h2 className="absolute -bottom-7 text-zinc-300 right-0 text-base">
+        <h2
+          ref={marshallH2}
+          className="absolute -bottom-7 text-zinc-300 right-0 text-base"
+        >
           Marshall
         </h2>
       </div>
