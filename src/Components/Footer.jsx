@@ -4,11 +4,11 @@ import VerticalMarquee from "../Animations/VerticalMarquee";
 
 const Footer = () => {
   return (
-    <div data-scroll-container className="overflow-y-scroll relative h-screen">
-      <div className="flex-none relative  bottom-0 left-0 w-screen h-screen bg-white text-black z-50">
+    <div className=" h-screen">
+      <div className="flex-none relative bottom-0 left-0 w-screen h-screen bg-white text-black z-50">
         <div className="w-full p-5 flex items-center justify-center text-9xl h-[100%] font-rewritten">
           <div className="border-l-1 flex border-zinc-700  w-[98%] h-[90%]">
-            <div className="flex items-center justify-end relative w-[50%] h-full">
+            <div data-scroll-container  className="flex items-center justify-end relative w-[50%] h-full">
               <VerticalMarquee
                 scrollTargetSelector="[data-scroll-container]"
                 speed={10}

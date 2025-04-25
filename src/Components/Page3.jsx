@@ -96,7 +96,16 @@ const Page3 = () => {
               <p className='font-[Saans] text-[1.5vh] text-[#A29C9C] pt-[3%] pb-[4%] w-[80%]'>
                 Signature sound that delivers clarity, depth, and pure audio power. Experience every beat like never before. Buy Now.
               </p>
-              <button className='font-[Aux-Mono] text-[2vh] bg-[#383838] px-[2vw] py-[1vh] rounded-full cursor-pointer'>Buy Now</button>
+              <button className="px-3  font-[Aux-Mono] relative py-1 overflow-hidden group cursor-pointer mt-5 bg-black text-white rounded-full w-full lg:w-auto text-center">
+              <h1 className="group-hover:translate-y-[150%] text-sm  duration-300 translate-y-[0%]">
+                {" "}
+                Buy Now{" "}
+              </h1>
+
+              <h1 className="absolute bottom-1/2 text-zinc-300 text-sm  group-hover:translate-y-[50%] duration-300 translate-y-[-150%]">
+                Buy Now
+              </h1>
+            </button>
             </div>
             <div className='h-[50%] w-full flex justify-start items-end'>
               <div className='h-[90%] w-[70%]'>
