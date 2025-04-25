@@ -8,12 +8,14 @@ import Page5 from "./Components/Page5";
 import Footer from "./Components/Footer";
 import Navbar from "./Components/Navbar";
 import Loader from "./Components/Loader";
+import Circle from "./Components/Circle";
 
 const BREAKPOINT = 768;
 
 const App = () => {
   const scrollContainerRef = useRef(null);
   const contentRef = useRef(null);
+  const [isPage1Complete, setIsPage1Complete] = useState(false);
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= BREAKPOINT);
   const [isScrollLocked, setIsScrollLocked] = useState(false);
   const animationRef = useRef(null);
@@ -34,16 +36,20 @@ const App = () => {
       return;
     }
 
-    animationRef.current = gsap.to(scrollContainerRef.current, {
-      scrollLeft: target,
-      duration,
-      ease,
-      overwrite: "auto",
-      onUpdate: () => {
-        scrollContainerRef.current.scrollLeft = scrollContainerRef.current.scrollLeft;
-      },
-    });
-  }, [isScrollLocked]);
+      animationRef.current = gsap.to(scrollContainerRef.current, {
+        scrollLeft: target,
+        duration,
+        ease,
+        overwrite: "auto",
+        onUpdate: () => {
+          // Force synchronous layout update
+          scrollContainerRef.current.scrollLeft =
+            scrollContainerRef.current.scrollLeft;
+        },
+      });
+    },
+    []
+  );
 
   // Initialize responsive layout
   useEffect(() => {
@@ -81,17 +87,13 @@ const App = () => {
     if (!el) return;
 
     const handleWheel = (e) => {
-      if (isScrollLocked) {
-        e.preventDefault();
-        return;
-      }
-      
-      e.preventDefault();
-      const currentScroll = el.scrollLeft;
-      const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-      const target = currentScroll + delta * 5;
-      animateScroll(target);
-    };
+
+      e.preventDefault()
+      const currentScroll = el.scrollLeft
+      const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY
+      const target = currentScroll + delta * 5
+      animateScroll(target)
+    }
 
 
     const handleKeyDown = (e) => {
@@ -161,22 +163,26 @@ const App = () => {
       className={isDesktop ? "flex relative" : "flex flex-col relative"}
     >
         <Loader />
+        <div
+          style={{
+            position: "fixed",
+            top: "0%",
+            left: "0%",
+            transform: "translate(-50%, -50%)",
+            zIndex: "1000",
+          }}
+        >
+          <Circle />
+        </div>
         <Navbar />
-        <Page1 />
+        <Page1 onComplete={handlePage1Complete} />
         <Page2 />
         <Page3 />
         <Page4 />
         <Page5 />
         <Footer />
       </div>
-      
-      {/* Optional lock button */}
-      <button 
-        onClick={() => isScrollLocked ? unlockScroll() : lockScroll()}
-        className="fixed bottom-4 right-4 z-50 bg-white px-4 py-2 rounded-md"
-      >
-        {isScrollLocked ? "Unlock Scroll" : "Lock Scroll"}
-      </button>
+ 
     </div>
   );
 };
