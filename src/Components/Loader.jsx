@@ -245,11 +245,11 @@ const Loader = () => {
   return (
     <div
       ref={loaderRef}
-      className="fixed z-[999] h-screen w-screen bg-black text-white overflow-hidden flex justify-between items-center px-12 py-15 font-[Aux-mono] text-sm font-[100]"
+      className="fixed z-[999] h-screen w-screen bg-black text-white overflow-hidden flex flex-col lg:flex-row justify-between items-center px-4 lg:px-12 py-4 lg:py-15 font-[Aux-mono] text-sm font-[100]"
     >
       <div
         ref={imgDiv}
-        className="w-[40vw] h-[48vh] absolute z-[20] top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-red-900"
+        className="w-[99vw] h-[35vh] lg:w-[40vw] lg:h-[48vh] absolute z-[20] top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2"
       >
         <img
           src="./Page-1/BlackNWhite.jpg"
@@ -265,7 +265,7 @@ const Loader = () => {
         </h2>
       </div>
 
-      <div className="px-2 py-2 flex gap-15 ">
+      <div className="flex justify-between w-full lg:w-fit gap-15 ">
         <div ref={artistRef} className="">
           <h2 className="mb-3 uppercase opacity-0">Artist</h2>
           {artists.map((elem, index) => (
@@ -279,7 +279,8 @@ const Loader = () => {
           ))}
         </div>
       </div>
-      <div ref={productsRef} className="px-2 py-2 w-[20%]">
+
+      <div ref={productsRef} className="px-2 py-2 hidden lg:block w-[20%]">
         <h2 className="mb-3 uppercase opacity-0">Product</h2>
         {products.map((elem, index) => (
           <h2 className="text-[#6C6B6B] opacity-0">{elem}</h2>

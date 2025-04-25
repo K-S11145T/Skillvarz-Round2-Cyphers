@@ -126,36 +126,36 @@ const Page1 = ({
   };
 
   const handleImgClick = () => {
-    // console.log("Image clicked - attempting to unlock scroll");
-
     setHomeImgClick(false);
-    // document.body.style.overflow = "auto";
 
     try {
-      const tl = gsap.timeline({
-        onComplete: () => {
-          onComplete();
-          unlockScroll();
-        },
+      const mm = gsap.matchMedia();
+      mm.add("(min-width: 767px)", () => {
+        const tl = gsap.timeline({
+          onComplete: () => {
+            onComplete();
+            unlockScroll();
+          },
+        });
+        if (!isImgActive) {
+          setIsImgActive(true);
+          tl.to(imgDiv.current, {
+            height: "100vh",
+            width: "100vw",
+            ease: "power2.out",
+            duration: 0.9,
+          });
+        }
+        if (isImgActive) {
+          setIsImgActive(false);
+          tl.to(imgDiv.current, {
+            height: "48vh",
+            width: "40vw",
+            ease: "power2.out",
+            duration: 0.9,
+          });
+        }
       });
-      if (!isImgActive) {
-        setIsImgActive(true);
-        tl.to(imgDiv.current, {
-          height: "100vh",
-          width: "100vw",
-          ease: "power2.out",
-          duration: 0.9,
-        });
-      }
-      if (isImgActive) {
-        setIsImgActive(false);
-        tl.to(imgDiv.current, {
-          height: "48vh",
-          width: "40vw",
-          ease: "power2.out",
-          duration: 0.9,
-        });
-      }
     } catch (error) {
       console.error("Error in handleImgClick:", error);
     }
@@ -172,7 +172,7 @@ const Page1 = ({
   };
 
   return (
-    <div className="flex-none z-[8]  w-screen h-screen relative bg-[#EDEDED] text-black flex items-end justify-start px-8 pb-5">
+    <div className="flex-none z-[8]  w-screen h-screen relative bg-[#EDEDED] text-black flex items-end justify-start px-2 lg:px-8 pb-5">
       {/* Top-right logo */}
 
       <audio ref={audioRef} src="/Page-1/Music.ogg" loop preload="auto" />
@@ -208,30 +208,30 @@ const Page1 = ({
       <img
         src="./Page-1/Marshall-Logo.png"
         alt=""
-        className="marshall-logo h-20 object-cover absolute right-10 top-5"
+        className="marshall-logo h-15 lg:h-20 object-cover absolute lg:right-10 right-2 lg:top-5 top-2"
       />
 
       {/* Text bottom */}
       <div
-        className={`absolute pointer-events-none bottom-5 z-[23] transition-all duration-[0.7] ${
+        className={`absolute pointer-events-none bottom-10 lg:bottom-5 z-[23] transition-all duration-[0.7] ${
           isImgActive ? "text-zinc-100" : "text-zinc-900"
         }`}
       >
-        <h4 className="w-[30%] underline font-[Saans] mb-5 text-sm">
+        <h4 className="w-[70%] lg:w-[30%] underline font-[Saans] mb-3 lg:mb-5 lg:text-sm">
           Signature Marshall sound built for music lovers who crave rich,
           immersive audio.
         </h4>
         <h1
           ref={h1Ref}
-          className="text-[6vw] leading-[5vw] tracking-tighter font-[Montserrat-Bold]"
+          className="text-5xl leading-10 lg:text-[6vw] lg:leading-[5vw] tracking-tighter font-[Montserrat-Bold]"
         >
           ROCK N ROLL
         </h1>
-        <h1 className="text-[6vw] leading-[5vw] tracking-tighter font-[Montserrat-Bold]">
+        <h1 className="text-5xl leading-10 lg:text-[6vw] lg:leading-[5vw] tracking-tighter font-[Montserrat-Bold]">
           A STATE OF MIND.
         </h1>
 
-        <h4 className="absolute top-1/2 -right-0 translate-x-1/2 translate-y-1/2 text-4xl font-[Silk-Serif-Light-Italic]">
+        <h4 className="absolute top-1/2 right-8 lg:-right-0 translate-x-1/2 lg:translate-y-1/2 text-4xl font-[Silk-Serif-Light-Italic]">
           01
         </h4>
       </div>
@@ -242,7 +242,7 @@ const Page1 = ({
         onClick={() => handleImgClick()}
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
-        className="absolute z-[20] top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 flex flex-col justify-center  w-[40vw] h-[48vh] cursor-pointer"
+        className="absolute z-[20] top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 flex flex-col justify-center w-[99vw] h-[35vh] lg:w-[40vw] lg:h-[48vh] cursor-pointer"
       >
         <img
           ref={img4}
@@ -254,10 +254,10 @@ const Page1 = ({
       </div>
 
       {/* All Floating Imgs */}
-      <div className="absolute top-1/2 -translate-y-1/2 left-1/2 px-8 -translate-x-1/2 h-3/4 w-full flex justify-start gap-3 font-[Saans] text-sm">
+      <div className="absolute top-1/2 -translate-y-1/2 left-1/2 px-2 lg:px-8 -translate-x-1/2 h-3/4 w-full flex justify-start gap-3 font-[Saans] text-sm">
         <div className="flex gap-3">
           <div className="flex flex-col items-end">
-            <div className="w-[18vw] h-[45vh] overflow-hidden">
+            <div className="w-[60vw] h-auto lg:w-[18vw] lg:h-[45vh] overflow-hidden">
               <img
                 ref={img1}
                 onMouseEnter={() => hoverIn(img1.current)}
@@ -269,8 +269,8 @@ const Page1 = ({
             </div>
             <h3>designing</h3>
           </div>
-          <div className="flex flex-col items-end">
-            <div className="w-32 h-40 overflow-hidden">
+          <div className="hidden lg:flex flex-col items-end">
+            <div className="w-[8.5vw] h-[22vh] overflow-hidden">
               <img
                 ref={img2}
                 onMouseEnter={() => hoverIn(img2.current)}
@@ -288,7 +288,7 @@ const Page1 = ({
           <div className="w-[40vw]"></div>
           <div className="h-[48vh] flex gap-3">
             <div className="flex flex-col items-end">
-              <div className="w-32 h-40 overflow-hidden">
+              <div className="w-[8.5vw] h-[22vh] overflow-hidden">
                 <img
                   ref={img5}
                   onMouseEnter={() => hoverIn(img5.current)}
@@ -301,7 +301,7 @@ const Page1 = ({
               <h3>Loyalty</h3>
             </div>
             <div className="flex flex-col items-end">
-              <div className="w-32 h-40 overflow-hidden">
+              <div className="w-[8.5vw] h-[22vh] overflow-hidden">
                 <img
                   ref={img6}
                   onMouseEnter={() => hoverIn(img6.current)}
