@@ -3,7 +3,6 @@ import { gsap } from "gsap";
 import Page1 from "./Components/Page1";
 import Page2 from "./Components/Page2";
 import Page3 from "./Components/Page3";
-import Page4 from "./Components/Page4";
 import Page5 from "./Components/Page5";
 import Footer from "./Components/Footer";
 import Navbar from "./Components/Navbar";
@@ -79,7 +78,7 @@ const App = () => {
     if (isDesktop) {
       gsap.set(content, {
         display: "flex",
-        width: `${6 * 100}vw`,
+        width: `${5 * 100}vw`,
       });
       gsap.set(container, {
         overflowX: isScrollLocked ? "hidden" : "auto", // Disable overflow when locked
@@ -214,7 +213,6 @@ const App = () => {
         />
         <Page2 />
         <Page3 />
-        <Page4 />
         <Page5 />
         <Footer />
       </div>
