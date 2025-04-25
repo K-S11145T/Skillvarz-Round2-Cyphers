@@ -134,7 +134,7 @@ const Page1 = ({
     try {
       const mm = gsap.matchMedia();
 
-      mm.add("(max-width: 767px)", () => {
+      mm.add("(min-width: 767px)", () => {
         const tl = gsap.timeline({
           onComplete: () => {
             onComplete();
