@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import BlurText from "../Animations/BlurText";
 
 const Page1 = ({
   onComplete,
@@ -15,6 +16,7 @@ const Page1 = ({
   const img5 = useRef(null);
   const img6 = useRef(null);
   const h1Ref = useRef(null);
+  const h1Ref2 = useRef(null);
   const imgDiv = useRef(null);
   const [isImgHovered, setIsImgHovered] = useState(false);
   const [isImgActive, setIsImgActive] = useState(false);
@@ -90,7 +92,7 @@ const Page1 = ({
   };
 
   useGSAP(() => {
-    const tl = gsap.timeline({ delay: 6.8 });
+    const tl = gsap.timeline({ delay: 7.7 });
     tl.from(
       [
         img1.current,
@@ -105,7 +107,26 @@ const Page1 = ({
         duration: 0.7,
         stagger: 0.2,
         ease: "power2.out",
-      }
+      },
+      "sameTime"
+    );
+
+    tl.from(
+      h1Ref.current,
+      {
+        y: "100%",
+        rotate: "30deg",
+      },
+      "sameTime"
+    );
+
+    tl.from(
+      h1Ref2.current,
+      {
+        y: "100%",
+        rotate: "30deg",
+      },
+      "sameTime"
     );
   }, []);
 
@@ -219,15 +240,22 @@ const Page1 = ({
           Signature Marshall sound built for music lovers who crave rich,
           immersive audio.
         </h4>
-        <h1
-          ref={h1Ref}
-          className="text-5xl leading-10 lg:text-[6vw] lg:leading-[5vw] tracking-tighter font-[Montserrat-Bold]"
-        >
-          ROCK N ROLL
-        </h1>
-        <h1 className="text-5xl leading-10 lg:text-[6vw] lg:leading-[5vw] tracking-tighter font-[Montserrat-Bold]">
-          A STATE OF MIND.
-        </h1>
+        <div className="overflow-hidden h-fit">
+          <h1
+            ref={h1Ref}
+            className="text-5xl origin-left leading-10 lg:text-[6vw] lg:leading-[5vw] tracking-tighter font-[Montserrat-Bold]"
+          >
+            ROCK N ROLL
+          </h1>
+        </div>
+        <div className="overflow-hidden h-fit">
+          <h1
+            ref={h1Ref2}
+            className="text-5xl origin-left leading-10 lg:text-[6vw] lg:leading-[5vw] tracking-tighter font-[Montserrat-Bold]"
+          >
+            A STATE OF MIND.
+          </h1>
+        </div>
 
         <h4 className="absolute top-1/2 right-7 lg:-right-0 translate-x-1/2 lg:translate-y-1/2 text-4xl font-[Silk-Serif-Light-Italic]">
           01
