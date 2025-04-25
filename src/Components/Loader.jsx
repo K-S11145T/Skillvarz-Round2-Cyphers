@@ -276,10 +276,10 @@ const Loader = () => {
     >
       <div
         ref={imgDiv}
-        className="w-[99vw] h-[35vh] lg:w-[40vw] lg:h-[48vh] absolute z-[20] top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-red-900"
+        className="w-[99vw] h-[35vh] lg:w-[40vw] lg:h-[48vh] absolute z-[20] top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2"
       >
         <img
-          src="./Page-1/BlackNWhite.jpg"
+          src="./Page-1/BlackNWhite.png"
           alt=""
           className="w-full h-full object-cover"
         />

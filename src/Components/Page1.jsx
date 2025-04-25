@@ -272,7 +272,7 @@ const Page1 = ({
       >
         <img
           ref={img4}
-          src="./Page-1/BlackNWhite.jpg"
+          src="./Page-1/BlackNWhite.png"
           alt=""
           className="w-full h-full object-cover "
         />
