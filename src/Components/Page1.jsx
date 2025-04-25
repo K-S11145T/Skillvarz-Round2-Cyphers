@@ -177,16 +177,14 @@ const Page1 = ({
 
       <audio ref={audioRef} src="/Page-1/Music.ogg" loop preload="auto" />
       <div
-        className="flex fixed px-2 py-1 font-thin rounded-full items-center  gap-1 justify-center 
+        className="flex fixed px-2 py-1 font-thin rounded-md items-center  gap-1 justify-center 
   text-[#1E1E1E] absolute bottom-10 right-20 z-[9990] scale-[120%] 
   bg-white/70 backdrop-blur-md  shadow-md"
       >
         <div
           onClick={toggleAudio}
           className="flex cursor-pointer items-center justify-center w-5 h-5 rounded-full text-[#1E1E1E] 
-             bg-[#e0e5ec] shadow-[3px_3px_6px_#b8b9be,-3px_-3px_6px_#ffffff] 
-             hover:shadow-[inset_3px_3px_6px_#b8b9be,inset_-3px_-3px_6px_#ffffff]
-             transition-all duration-200"
+            "
         >
           {isMusicActive ? (
             <i class="ri-pause-line"></i>
