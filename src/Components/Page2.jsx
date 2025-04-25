@@ -157,7 +157,7 @@ const Page2 = () => {
 
         {/* Vertical Text Section */}
         <div className="lg:absolute  w-[100%]  lg:translate-x-[-10%] h-[15%]  lg:-rotate-90 ">
-          <ScrollBasedMarquee text="Marshall – Marshall –" speed={500} />
+          <ScrollBasedMarquee text="Marshall – Marshall –" speed={1000} />
         </div>
 
         {/* Content Section */}

@@ -1,4 +1,5 @@
-import React, { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+
 import Navbar from "./Navbar";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -15,6 +16,56 @@ const Page1 = () => {
   const imgDiv = useRef(null);
   const circle = useRef(null);
   const [isImgActive, setIsImgActive] = useState(false);
+  const [isMusicActive, setIsMusicActive] = useState(false);
+  const barsRef = useRef([]);
+  const audioRef = useRef(null);
+
+  useEffect(() => {
+    if (isMusicActive) {
+      barsRef.current.forEach((bar, index) => {
+        gsap.to(bar, {
+          scaleY: () => Math.random() * 2,
+          repeat: -1,
+
+          ease: "power1.inOut",
+          duration: 0.2 + Math.random(),
+          delay: index * 0.05,
+          transformOrigin: "center center",
+        });
+      });
+    } else {
+      // Reset bars to scaleY = 1 and kill animation
+      barsRef.current.forEach((bar) => {
+        gsap.killTweensOf(bar); // stop the animation
+        gsap.to(bar, {
+          scaleY: 1,
+          duration: 0.5,
+          ease: "power2.out",
+        });
+      });
+    }
+  }, [isMusicActive]);
+
+  const toggleAudio = () => {
+    const audio = audioRef.current;
+
+    if (!audio) return;
+
+    if (isMusicActive) {
+      audio.pause();
+      setIsMusicActive(false);
+    } else {
+      audio.volume = 1; // Yaha se Set volume krlo!!
+      audio
+        .play()
+        .then(() => {
+          setIsMusicActive(true);
+        })
+        .catch((err) => {
+          console.error("Audio play error:", err);
+        });
+    }
+  };
 
   useGSAP(() => {
     const tl = gsap.timeline({ delay: 6.8 });
@@ -52,9 +103,42 @@ const Page1 = () => {
   };
 
   return (
-    <div className="flex-none z-[8] w-screen h-screen relative bg-[#EDEDED] text-black flex items-end justify-start px-8 pb-5">
+    <div className="flex-none z-[8]  w-screen h-screen relative bg-[#EDEDED] text-black flex items-end justify-start px-8 pb-5">
       {/* <InversionLens src={"./Page-1/LandingPageModelColored.png"} /> */}
       {/* Top-right logo */}
+
+      <audio
+        ref={audioRef}
+        src="/Page-1/Music.ogg"
+        loop
+        preload="auto"
+      />
+      <div
+        className="flex fixed px-2 py-1 font-thin rounded-full items-center  gap-1 justify-center 
+  text-[#1E1E1E] absolute bottom-10 right-20 z-[9990] scale-[170%] 
+  bg-white/70 backdrop-blur-md  shadow-md"
+      >
+        <div
+          onClick={toggleAudio}
+          className="flex cursor-pointer items-center justify-center w-5 h-5 rounded-full text-[#1E1E1E]"
+        >
+          {isMusicActive ? (
+            <i class="ri-pause-line"></i>
+          ) : (
+            <i class="ri-play-line"></i>
+          )}
+        </div>
+        {Array.from({ length: 8 }).map((_, i) => (
+          <h1
+            key={i}
+            ref={(el) => (barsRef.current[i] = el)}
+            className="transition-transform mb-1"
+          >
+            |
+          </h1>
+        ))}
+      </div>
+
       <img
         src="./Page-1/Marshall-Logo.png"
         alt=""
