@@ -42,7 +42,7 @@ const Page5 = () => {
         backgroundImage: `url(${selectedProduct.image})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
-        transition: "background-image 0.5s ease-in-out",
+        transition: "background-image 0.8s ease-in-out",
       }}
     >
       <div className="relative flex items-top justify-start w-full h-screen flex flex-col">
@@ -53,8 +53,11 @@ const Page5 = () => {
             <span>Speakers</span>
 
             <div className='w-full h-20 flex items-start justify-between lg:mt-5 2xl:mt-12'>
-              <h1 className='ProdcutModel lg:text-4xl 2xl:text-5xl font-[Aux-Mono]'>{selectedProduct.model}</h1>
-              <h3 className='Ratings 2xl:text-3xl lg:text-2xl font-[Silk-Serif-Light-Italic] mr-8'>{selectedProduct.ratings}</h3>
+              <h1 className='ProdcutModel lg:text-4xl xl:text-5xl font-[Aux-Mono]'>{selectedProduct.model}</h1>
+              <h3 className='Ratings flex border-b-2 gap-2 border-[#A29C9C] 2xl:text-3xl lg:text-2xl font-[Silk-Serif-Light-Italic] mr-8'>
+                {selectedProduct.ratings.split(" ")[0]}
+                <sup className='text-[#000000] text-sm lg:text-base'>Stars</sup>
+              </h3>
             </div>
 
             <div className='w-full h-90'>
