@@ -166,12 +166,13 @@ const Page2 = () => {
 
           <div className="relative">
             <h1 className="text-2xl font-[Aux-Mono] lg:text-4xl mt-3">
-              <BlurText
-                text="Amplifying future icons in music"
-                animateBy="words"
-                direction="bottom"
-                delay={0.15}
-              />
+            <BlurText
+  text="Amplifying future icons in music"
+  animateBy="words"
+  direction="bottom"
+  delay={0.15}
+  triggerOn="mount" // Add this line
+/>
 
               <span className="absolute top-0 lg:-top-2 right-0 lg:-right-4 text-lg font-[Silk-Serif-Light-Italic] lg:text-4xl">
                 02

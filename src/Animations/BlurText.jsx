@@ -10,89 +10,63 @@ const BlurText = ({
   className = "",
   animateBy = "words",
   direction = "top",
-  animationFrom,
-  animationTo,
   onAnimationComplete,
 }) => {
   const ref = useRef(null);
   const elements = animateBy === "words" ? text.split(" ") : text.split("");
 
-  const defaultFrom =
-    direction === "top"
-      ? { 
-          opacity: 0, 
-          y: -50, 
-          filter: "blur(20px)", // Increased blur
-          willChange: "filter, opacity, transform" // Added for performance
-        }
-      : { 
-          opacity: 0, 
-          y: 50, 
-          filter: "blur(20px)", // Increased blur
-          willChange: "filter, opacity, transform" // Added for performance
-        };
-
-  const defaultTo = {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    ease: "power3.out",
-    duration: 0.5, // Added duration
-    stagger: {
-      each: delay,
-      from: "start" // Explicit stagger direction
-    }
-  };
-
   useEffect(() => {
+    if (!ref.current) return;
+
     const container = document.querySelector("[data-horizontal-scroll]");
-    if (!container || !ref.current) return;
-  
-    const targets = ref.current.querySelectorAll(".blur-word");
-    
-    // Make elements initially invisible
+    const targets = ref.current.children;
+
     gsap.set(targets, { opacity: 0 });
-    
+
+    const animation = {
+      from: {
+        opacity: 0,
+        y: direction === "top" ? -50 : 50,
+        filter: "blur(20px)"
+      },
+      to: {
+        opacity: 1,
+        y: 0,
+        filter: "blur(0px)",
+        ease: "power3.out",
+        duration: 0.5,
+        stagger: { each: delay },
+        onComplete: onAnimationComplete
+      }
+    };
+
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: ref.current,
-        scroller: container,
-        horizontal: true,
+        scroller: container || undefined,
+        horizontal: !!container,
         start: "center 90%",
         end: "+=500",
- 
-        id: "blur-text-animation"
+        toggleActions: "play none none none",
+        once: true
       }
     });
-    
-    tl.fromTo(
-      targets,
-      animationFrom || defaultFrom,
-      {
-        ...(animationTo || defaultTo),
-        onComplete: () => {
-          console.log("BlurText animation complete");
-          onAnimationComplete?.();
-        },
-      }
-    );
-  
+
+    tl.fromTo(targets, animation.from, animation.to);
+
     return () => {
       tl.scrollTrigger?.kill();
       tl.kill();
     };
-  }, [animationFrom, animationTo, defaultFrom, defaultTo]);
+  }, [text, delay, direction, onAnimationComplete]);
 
   return (
-    <p ref={ref} className={`blur-text ${className}`}>
+    <p ref={ref} className={className}>
       {elements.map((char, i) => (
         <span
           key={i}
-          className="blur-word inline-block relative" // Added relative
-          style={{ 
-            whiteSpace: char === " " ? "pre" : "normal",
-            transformStyle: "preserve-3d" // For better rendering
-          }}
+          className="inline-block"
+          style={{ whiteSpace: char === " " ? "pre" : "normal" }}
         >
           {char}
           {animateBy === "words" && i < elements.length - 1 && "\u00A0"}
