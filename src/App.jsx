@@ -16,6 +16,8 @@ const App = () => {
   const scrollContainerRef = useRef(null);
   const contentRef = useRef(null);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [homeImgHover, setHomeImgHover] = useState(false);
+  const [homeImgClick, setHomeImgClick] = useState(false);
   const [isPage1Complete, setIsPage1Complete] = useState(false);
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= BREAKPOINT);
   const [isScrollLocked, setIsScrollLocked] = useState(true);
@@ -194,18 +196,20 @@ const App = () => {
             top: "0%",
             left: "0%",
             transform: "translate(-50%, -50%)",
-            zIndex: "1000",
+            zIndex: "30",
           }}
         >
-          <Circle />
+          <Circle homeImgHover={homeImgHover} homeImgClick={homeImgClick} />
         </div>
-        <Navbar scrollProgress={scrollProgress} />
+        <Navbar />
         <Page1
           onComplete={() => {
             setIsPage1Complete(true);
-            unlockScroll(); // Also call unlockScroll here for redundancy
+            unlockScroll();
           }}
           unlockScroll={unlockScroll}
+          setHomeImgHover={setHomeImgHover}
+          setHomeImgClick={setHomeImgClick}
         />
         <Page2 />
         <Page3 />
