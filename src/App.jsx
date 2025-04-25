@@ -7,6 +7,7 @@ import Page4 from "./Components/Page4";
 import Page5 from "./Components/Page5";
 import Footer from "./Components/Footer";
 import Navbar from "./Components/Navbar";
+import Loader from "./Components/Loader";
 
 const BREAKPOINT = 768;
 
@@ -159,7 +160,7 @@ const App = () => {
   return (
     <div
       ref={scrollContainerRef}
-      className="w-screen bg-zinc-700 h-screen overflow-x-hidden"
+      className="w-screen bg-zinc-700 h-screen overflow-x-hidden select-none"
       tabIndex={0}
       data-horizontal-scroll
     >
@@ -167,17 +168,14 @@ const App = () => {
         ref={contentRef}
         className={isDesktop ? "flex relative" : "flex flex-col relative"}
       >
+        <Loader />
         <Navbar />
         <Page1 />
         <Page2 />
         <Page3 />
         <Page4 />
-
         <Page5 />
         <Footer />
-        
-
- 
       </div>
  
     </div>

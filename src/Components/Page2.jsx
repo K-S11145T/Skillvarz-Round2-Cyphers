@@ -122,7 +122,7 @@ const Page2 = () => {
   return (
     <div
       data-horizontal-scroll
-      className="flex-none w-screen lg:min-h-screen bg-zinc-200 text-xl"
+      className="flex-none  w-screen min-h-screen bg-zinc-200 text-xl"
     >
       <div className="flex flex-col relative lg:flex-row items-center px-4 lg:px-10 justify-evenly w-full md:h-[150%] py-10 lg:py-0 lg:h-screen">
         {/* Image Section */}
