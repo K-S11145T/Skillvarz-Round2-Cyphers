@@ -201,7 +201,7 @@ const App = () => {
         >
           <Circle homeImgHover={homeImgHover} homeImgClick={homeImgClick} />
         </div>
-        <Navbar />
+        <Navbar scrollProgress={ scrollProgress }  />
         <Page1
           onComplete={() => {
             setIsPage1Complete(true);
