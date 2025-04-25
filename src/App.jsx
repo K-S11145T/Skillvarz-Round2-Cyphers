@@ -15,38 +15,35 @@ const App = () => {
   const scrollContainerRef = useRef(null);
   const contentRef = useRef(null);
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= BREAKPOINT);
+  const [isScrollLocked, setIsScrollLocked] = useState(false);
   const animationRef = useRef(null);
 
   // Handle scroll animation with GSAP
-  const animateScroll = useCallback(
-    (target, duration = 0.8, ease = "power3.out") => {
-      if (animationRef.current) {
-        animationRef.current.kill();
-      }
+  const animateScroll = useCallback((target, duration = 1, ease = "power2.out") => {
+    if (isScrollLocked) return; // Don't animate if locked
+    
+    if (animationRef.current) {
+      animationRef.current.kill();
+    }
 
-      // Use native scroll behavior for better performance
-      if (duration < 0.3) {
-        scrollContainerRef.current.scrollTo({
-          left: target,
-          behavior: "auto",
-        });
-        return;
-      }
-
-      animationRef.current = gsap.to(scrollContainerRef.current, {
-        scrollLeft: target,
-        duration,
-        ease,
-        overwrite: "auto",
-        onUpdate: () => {
-          // Force synchronous layout update
-          scrollContainerRef.current.scrollLeft =
-            scrollContainerRef.current.scrollLeft;
-        },
+    if (duration < 0.3) {
+      scrollContainerRef.current.scrollTo({
+        left: target,
+        behavior: "auto",
       });
-    },
-    []
-  );
+      return;
+    }
+
+    animationRef.current = gsap.to(scrollContainerRef.current, {
+      scrollLeft: target,
+      duration,
+      ease,
+      overwrite: "auto",
+      onUpdate: () => {
+        scrollContainerRef.current.scrollLeft = scrollContainerRef.current.scrollLeft;
+      },
+    });
+  }, [isScrollLocked]);
 
   // Initialize responsive layout
   useEffect(() => {
@@ -54,15 +51,12 @@ const App = () => {
     const content = contentRef.current;
 
     if (isDesktop) {
-      // Set explicit width for horizontal scroll
-      const pageCount = 5; // or get dynamically
-
       gsap.set(content, {
         display: "flex",
-        width: `${pageCount * 100}vw`,
+        width: `${5 * 100}vw`,
       });
       gsap.set(container, {
-        overflowX: "auto",
+        overflowX: isScrollLocked ? "hidden" : "auto", // Disable overflow when locked
         overflowY: "hidden",
         scrollBehavior: "auto",
       });
@@ -77,25 +71,7 @@ const App = () => {
         overflowY: "auto",
       });
     }
-
-    return () => {
-      animationRef.current?.kill();
-    };
-  }, [isDesktop]);
-
-  // Handle window resize
-  useEffect(() => {
-    const handleResize = () => {
-      const newIsDesktop = window.innerWidth >= BREAKPOINT;
-      if (newIsDesktop !== isDesktop) {
-        setIsDesktop(newIsDesktop);
-      }
-    };
-
-    const debouncedResize = debounce(handleResize, 100);
-    window.addEventListener("resize", debouncedResize);
-    return () => window.removeEventListener("resize", debouncedResize);
-  }, [isDesktop]);
+  }, [isDesktop, isScrollLocked]);
 
   // Desktop scroll handlers
   useEffect(() => {
@@ -105,13 +81,17 @@ const App = () => {
     if (!el) return;
 
     const handleWheel = (e) => {
-
-      e.preventDefault()
-      const currentScroll = el.scrollLeft
-      const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY
-      const target = currentScroll + delta * 5
-      animateScroll(target)
-    }
+      if (isScrollLocked) {
+        e.preventDefault();
+        return;
+      }
+      
+      e.preventDefault();
+      const currentScroll = el.scrollLeft;
+      const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+      const target = currentScroll + delta * 5;
+      animateScroll(target);
+    };
 
 
     const handleKeyDown = (e) => {
@@ -148,6 +128,7 @@ const App = () => {
       scrollActions[e.key]?.();
     };
 
+   
     el.addEventListener("wheel", handleWheel, { passive: false });
     window.addEventListener("keydown", handleKeyDown);
 
@@ -155,19 +136,30 @@ const App = () => {
       el.removeEventListener("wheel", handleWheel);
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isDesktop, animateScroll]);
+  }, [isDesktop, animateScroll, isScrollLocked]);
+
+  const lockScroll = useCallback(() => {
+    setIsScrollLocked(true);
+    animationRef.current?.kill(); // Completely kill any ongoing animation
+    gsap.set(scrollContainerRef.current, { overflowX: "hidden" });
+  }, []);
+
+  const unlockScroll = useCallback(() => {
+    setIsScrollLocked(false);
+    gsap.set(scrollContainerRef.current, { overflowX: "auto" });
+  }, []);
 
   return (
     <div
-      ref={scrollContainerRef}
-      className="w-screen bg-zinc-700 h-screen overflow-x-hidden select-none"
-      tabIndex={0}
-      data-horizontal-scroll
+    ref={scrollContainerRef}
+    className="w-screen bg-zinc-700 h-screen overflow-x-hidden select-none"
+    tabIndex={0}
+    data-horizontal-scroll
+  >
+    <div
+      ref={contentRef}
+      className={isDesktop ? "flex relative" : "flex flex-col relative"}
     >
-      <div
-        ref={contentRef}
-        className={isDesktop ? "flex relative" : "flex flex-col relative"}
-      >
         <Loader />
         <Navbar />
         <Page1 />
@@ -177,7 +169,14 @@ const App = () => {
         <Page5 />
         <Footer />
       </div>
- 
+      
+      {/* Optional lock button */}
+      <button 
+        onClick={() => isScrollLocked ? unlockScroll() : lockScroll()}
+        className="fixed bottom-4 right-4 z-50 bg-white px-4 py-2 rounded-md"
+      >
+        {isScrollLocked ? "Unlock Scroll" : "Lock Scroll"}
+      </button>
     </div>
   );
 };

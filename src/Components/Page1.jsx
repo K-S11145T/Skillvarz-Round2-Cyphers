@@ -120,7 +120,10 @@ const Page1 = () => {
       >
         <div
           onClick={toggleAudio}
-          className="flex cursor-pointer items-center justify-center w-5 h-5 rounded-full text-[#1E1E1E]"
+          className="flex cursor-pointer items-center justify-center w-5 h-5 rounded-full text-[#1E1E1E] 
+             bg-[#e0e5ec] shadow-[3px_3px_6px_#b8b9be,-3px_-3px_6px_#ffffff] 
+             hover:shadow-[inset_3px_3px_6px_#b8b9be,inset_-3px_-3px_6px_#ffffff]
+             transition-all duration-200"
         >
           {isMusicActive ? (
             <i class="ri-pause-line"></i>
@@ -147,9 +150,8 @@ const Page1 = () => {
 
       {/* Text bottom */}
       <div
-        className={`absolute bottom-5 z-[23] transition-all duration-[0.7] ${
-          isImgActive ? "text-zinc-100" : "text-zinc-900"
-        }`}
+        className={`absolute bottom-5 z-[23] transition-all duration-[0.7] ${isImgActive ? "text-zinc-100" : "text-zinc-900"
+          }`}
       >
         <h4 className="w-[30%] underline font-[Saans] mb-5 text-sm">
           Signature Marshall sound built for music lovers who crave rich,
