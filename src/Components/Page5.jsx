@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { SlArrowRight } from "react-icons/sl";
 import BlurText from "../Animations/BlurText";
+import gsap from 'gsap';
 
 const Page5 = () => {
   const products = [
@@ -10,7 +11,7 @@ const Page5 = () => {
       model: "ACTION-III",
       details: "Marshall ACTION-III combines classic rock-inspired design with bold sound performance. Experience deep bass, clear highs, and seamless Bluetooth 5.2 connectivity in a compact, stylish speaker.",
       ratings: "4.9 Stars",
-      image: "/Page-5/Awakespeaker.jpg",
+      image: "/Page-5/Subs.jpeg",
     },
     {
       name: "Major V.",
@@ -31,6 +32,47 @@ const Page5 = () => {
   ];
 
   const [selectedProduct, setSelectedProduct] = useState(products[0]);
+  const detailsRef = useRef(null);
+  const containerRef = useRef(null);
+
+  // Initial animation on component mount
+  useEffect(() => {
+    gsap.from(detailsRef.current, {
+      y: 20,
+      opacity: 0,
+      duration: 0.8,
+      ease: "back.out(1.2)"
+    });
+  }, []);
+
+  // Animation on product change
+  useEffect(() => {
+    const tl = gsap.timeline();
+    
+    // Animate out current content
+    tl.to(detailsRef.current, {
+      y: -30,
+      opacity: 0,
+      duration: 0.3,
+      ease: "power1.in"
+    });
+    
+    // Change content
+    tl.add(() => {
+      // Content updates automatically through state change
+    }, "-=0.2"); // Slight overlap
+    
+    // Animate in new content from below
+    tl.fromTo(detailsRef.current, 
+      { y: 20, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.6,
+        ease: "back.out(1.2)"
+      }
+    );
+  }, [selectedProduct]);
 
   const handleProductClick = (product) => {
     setSelectedProduct(product);
@@ -45,6 +87,7 @@ const Page5 = () => {
         backgroundPosition: "center",
         transition: "background-image 0.8s ease-in-out",
       }}
+      ref={containerRef}
     >
       <div className="relative flex items-top justify-start w-full h-screen flex flex-col">
         {/* Details container */}
@@ -56,11 +99,11 @@ const Page5 = () => {
             <div className='w-full h-20 flex items-start justify-between lg:mt-5 2xl:mt-12'>
               <h1 className='ProdcutModel xl:text-4xl 2xl:text-5xl font-[Aux-Mono]'>
                 <BlurText
-                                text={selectedProduct.model}
-                                animateBy="letters"
-                                direction="bottom"
-                                delay={0.05}
-                              />
+                  text={selectedProduct.model}
+                  animateBy="letters"
+                  direction="bottom"
+                  delay={0.03}
+                />
               </h1>
               <h3 className='Ratings flex border-b-2 gap-2 border-[#A29C9C] 2xl:text-3xl lg:text-2xl font-[Silk-Serif-Light-Italic] mr-8'>
                 {selectedProduct.ratings.split(" ")[0]}
@@ -69,15 +112,22 @@ const Page5 = () => {
             </div>
 
             <div className='w-full h-90'>
-              <h4 className='ProductDetails font-[Saans] lg:text-lg lg:mt-[-7%] h-[20vh] 2xl:mt-0 text-[#A29C9C] lg:w-[85%] 2xl:w-[75%] lg:leading-6 2xl:leading-10'>{selectedProduct.details}</h4>
+              <h4 
+                ref={detailsRef}
+                className='ProductDetails font-[Saans] lg:text-lg lg:mt-[-7%] h-[20vh] 2xl:mt-0 text-[#A29C9C] lg:w-[85%] 2xl:w-[75%] lg:leading-6 2xl:leading-10'
+                style={{ opacity: 0 }}
+              >
+                {selectedProduct.details}
+              </h4>
+              
               <div className='flex justify-between w-[26%] lg:w-[32%] lg:mt-5 2xl:mt-12'>
                 <div className='circle-1 lg:h-6 lg:w-6 2xl:h-10 2xl:w-10 rounded-full bg-[#060606]'></div>
                 <div className='circle-2 lg:h-6 lg:w-6 2xl:h-10 2xl:w-10 rounded-full bg-[#824820]'></div>
                 <div className='circle-3 lg:h-6 lg:w-6 2xl:h-10 2xl:w-10 rounded-full bg-[#E8E0D5]'></div>
               </div>
               <div className='Readmore relative group overflow-hidden font-[Aux-Mono] cursor-pointer lg:h-fit lg:w-fit lg:px-3 lg:py-2 2xl:px-0 2xl:py-0 2xl:h-14 2xl:w-50 bg-[#383838] rounded-full flex items-center justify-center lg:text-sm 2xl:text-base text-[#EDEDED] lg:mt-3 2xl:mt-10 '>
-             <h1 className='group-hover:translate-y-[150%]  duration-300 translate-y-[0%]'>    Read more  </h1>
-             <h1 className="absolute bottom-1/2 text-zinc-300  group-hover:translate-y-[50%] duration-300 translate-y-[-150%]">Read More</h1>
+                <h1 className='group-hover:translate-y-[150%] duration-300 translate-y-[0%]'>Read more</h1>
+                <h1 className="absolute bottom-1/2 text-zinc-300 group-hover:translate-y-[50%] duration-300 translate-y-[-150%]">Read More</h1>
               </div>
             </div>
 
@@ -88,7 +138,7 @@ const Page5 = () => {
               </div>
               <div className='w-full h-12 flex items-center justify-between'>
                 <h2>Returns, Warranty & Payments</h2>
-                <span className='text-[#A29C9C]'>< SlArrowRight /></span>
+                <span className='text-[#A29C9C]'><SlArrowRight /></span>
               </div>
             </div>
           </div>
@@ -96,7 +146,9 @@ const Page5 = () => {
         
         {/* Bottom container */}
         <div className='BottomContainer w-[70%] h-[20%] absolute right-0 bottom-0 flex'>
-          <div className='Price w-[50%] bg-[#1E1E1E] text-[8vw] flex -center justify-center h-full font-[Silk-Serif-Light-Italic]'>{selectedProduct.price}</div>
+          <div className='Price w-[50%] bg-[#1E1E1E] text-[8vw] flex items-center justify-center h-full font-[Silk-Serif-Light-Italic]'>
+            {selectedProduct.price}
+          </div>
           <div className='ProductNames w-[50%] h-full lg:px-6 xl:pb-10'>
             {products.map((product, index) => (
               <div
