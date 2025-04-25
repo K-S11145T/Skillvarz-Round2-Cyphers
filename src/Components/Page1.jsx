@@ -52,7 +52,7 @@ const Page1 = () => {
   };
 
   return (
-    <div className="flex-none z-[8] w-screen h-screen relative bg-zinc-100 text-black flex items-end justify-start px-8 pb-5">
+    <div className="flex-none z-[8] w-screen h-screen relative bg-[#EDEDED] text-black flex items-end justify-start px-8 pb-5">
       {/* <InversionLens src={"./Page-1/LandingPageModelColored.png"} /> */}
       {/* Top-right logo */}
       <img
