@@ -17,12 +17,12 @@ const App = () => {
   const contentRef = useRef(null);
   const [isPage1Complete, setIsPage1Complete] = useState(false);
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= BREAKPOINT);
-  const [isScrollLocked, setIsScrollLocked] = useState(false);
+  const [isScrollLocked, setIsScrollLocked] = useState(true);
   const animationRef = useRef(null);
 
   // Handle scroll animation with GSAP
   const animateScroll = useCallback((target, duration = 1, ease = "power2.out") => {
-    if (isScrollLocked) return; // Don't animate if locked
+    if (isScrollLocked) return;// Don't animate if locked
     
     if (animationRef.current) {
       animationRef.current.kill();
@@ -47,9 +47,7 @@ const App = () => {
             scrollContainerRef.current.scrollLeft;
         },
       });
-    },
-    []
-  );
+    }, [isScrollLocked]);
 
   // Initialize responsive layout
   useEffect(() => {
@@ -87,13 +85,17 @@ const App = () => {
     if (!el) return;
 
     const handleWheel = (e) => {
-
-      e.preventDefault()
-      const currentScroll = el.scrollLeft
-      const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY
-      const target = currentScroll + delta * 5
-      animateScroll(target)
-    }
+      if (isScrollLocked) {
+        e.preventDefault();
+        return;
+      }
+      
+      e.preventDefault();
+      const currentScroll = el.scrollLeft;
+      const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+      const target = currentScroll + delta * 5;
+      animateScroll(target);
+    };
 
 
     const handleKeyDown = (e) => {
@@ -150,18 +152,24 @@ const App = () => {
     setIsScrollLocked(false);
     gsap.set(scrollContainerRef.current, { overflowX: "auto" });
   }, []);
+  useEffect(() => {
+    // Lock scroll when component mounts
+    lockScroll();
+    
+   
+  }, []);
 
   return (
     <div
-    ref={scrollContainerRef}
-    className="w-screen bg-zinc-700 h-screen overflow-x-hidden select-none"
-    tabIndex={0}
-    data-horizontal-scroll
-  >
-    <div
-      ref={contentRef}
-      className={isDesktop ? "flex relative" : "flex flex-col relative"}
+      ref={scrollContainerRef}
+      className="w-screen bg-zinc-700 h-screen overflow-x-hidden select-none"
+      tabIndex={0}
+      data-horizontal-scroll
     >
+      <div
+        ref={contentRef}
+        className={isDesktop ? "flex relative" : "flex flex-col relative"}
+      >
         <Loader />
         <div
           style={{
@@ -175,14 +183,19 @@ const App = () => {
           <Circle />
         </div>
         <Navbar />
-        <Page1 onComplete={handlePage1Complete} />
+        <Page1 
+  onComplete={() => {
+    setIsPage1Complete(true);
+    unlockScroll(); // Also call unlockScroll here for redundancy
+  }}
+  unlockScroll={unlockScroll}
+/>
         <Page2 />
         <Page3 />
         <Page4 />
         <Page5 />
         <Footer />
       </div>
- 
     </div>
   );
 };

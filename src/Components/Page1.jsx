@@ -5,7 +5,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import InversionLens from "./InversionLens/InversionLens";
 
-const Page1 = ({ onComplete }) => {
+const Page1 = ({ onComplete, unlockScroll }) => {
   const img1 = useRef(null);
   const img2 = useRef(null);
   const img3 = useRef(null);
@@ -139,21 +139,28 @@ const Page1 = ({ onComplete }) => {
   };
 
   const handleImgClick = () => {
+    console.log("Image clicked - attempting to unlock scroll");
     setIsImgActive(true);
     document.body.style.overflow = "auto";
-    const tl = gsap.timeline();
-    tl.to(imgDiv.current, {
-      height: "100vh",
-      width: "100vw",
-      ease: "power2.out",
-      duration: 0.9,
-    });
-    onComplete();
-    // .to(circle.current, {
-    //   color: "#fff",
-    //   borderColor: "#EDEDED",
-    //   duration: 0.1,
-    // });
+    
+    try {
+      const tl = gsap.timeline({
+        onComplete: () => {
+          console.log("Animation complete - calling onComplete and unlockScroll");
+          onComplete();
+          unlockScroll();
+        }
+      });
+      
+      tl.to(imgDiv.current, {
+        height: "100vh",
+        width: "100vw",
+        ease: "power2.out",
+        duration: 0.9,
+      });
+    } catch (error) {
+      console.error("Error in handleImgClick:", error);
+    }
   };
 
   const handleEnter = () => {
@@ -199,7 +206,7 @@ const Page1 = ({ onComplete }) => {
       />
       <div
         className="flex fixed px-2 py-1 font-thin rounded-full items-center  gap-1 justify-center 
-  text-[#1E1E1E] absolute bottom-10 right-20 z-[9990] scale-[170%] 
+  text-[#1E1E1E] absolute bottom-10 right-20 z-[9990] scale-[120%] 
   bg-white/70 backdrop-blur-md  shadow-md"
       >
         <div
