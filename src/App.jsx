@@ -8,12 +8,14 @@ import Page5 from "./Components/Page5";
 import Footer from "./Components/Footer";
 import Navbar from "./Components/Navbar";
 import Loader from "./Components/Loader";
+import Circle from "./Components/Circle";
 
 const BREAKPOINT = 768;
 
 const App = () => {
   const scrollContainerRef = useRef(null);
   const contentRef = useRef(null);
+  const [isPage1Complete, setIsPage1Complete] = useState(false);
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= BREAKPOINT);
   const animationRef = useRef(null);
 
@@ -47,6 +49,24 @@ const App = () => {
     },
     []
   );
+
+  const handlePage1Complete = () => {
+    setIsPage1Complete(true); // Set flag to true when page1 animation is complete
+  };
+
+  // Disable scroll when page1 is complete
+  useEffect(() => {
+    if (isPage1Complete) {
+      // Disable scrolling by setting overflowX to hidden
+      gsap.set(scrollContainerRef.current, {
+        overflowX: "hidden",
+      });
+    } else {
+      gsap.set(scrollContainerRef.current, {
+        overflowX: "auto",
+      });
+    }
+  }, [isPage1Complete]);
 
   // Initialize responsive layout
   useEffect(() => {
@@ -105,14 +125,13 @@ const App = () => {
     if (!el) return;
 
     const handleWheel = (e) => {
-
-      e.preventDefault()
-      const currentScroll = el.scrollLeft
-      const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY
-      const target = currentScroll + delta * 5
-      animateScroll(target)
-    }
-
+      e.preventDefault();
+      const currentScroll = el.scrollLeft;
+      const delta =
+        Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+      const target = currentScroll + delta * 5;
+      animateScroll(target);
+    };
 
     const handleKeyDown = (e) => {
       if (
@@ -169,15 +188,25 @@ const App = () => {
         className={isDesktop ? "flex relative" : "flex flex-col relative"}
       >
         <Loader />
+        <div
+          style={{
+            position: "fixed",
+            top: "0%",
+            left: "0%",
+            transform: "translate(-50%, -50%)",
+            zIndex: "1000",
+          }}
+        >
+          <Circle />
+        </div>
         <Navbar />
-        <Page1 />
+        <Page1 onComplete={handlePage1Complete} />
         <Page2 />
         <Page3 />
         <Page4 />
         <Page5 />
         <Footer />
       </div>
- 
     </div>
   );
 };
