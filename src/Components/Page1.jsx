@@ -178,7 +178,7 @@ const Page1 = ({
       <audio ref={audioRef} src="/Page-1/Music.ogg" loop preload="auto" />
       <div
         className="flex fixed px-2 py-1 font-thin rounded-md items-center  gap-1 justify-center 
-  text-[#1E1E1E] absolute bottom-10 right-20 z-[9990] scale-[120%] 
+  text-[#1E1E1E] absolute bottom-10 right-5 lg:right-20 z-[999] scale-[120%] 
   bg-white/70 backdrop-blur-md  shadow-md"
       >
         <div
@@ -206,7 +206,7 @@ const Page1 = ({
       <img
         src="./Page-1/Marshall-Logo.png"
         alt=""
-        className="marshall-logo h-15 lg:h-20 object-cover absolute lg:right-10 right-2 lg:top-5 top-2"
+        className="marshall-logo h-15 lg:h-20 object-cover absolute right-1 lg:right-10 top-2 lg:top-5"
       />
 
       {/* Text bottom */}
@@ -215,7 +215,7 @@ const Page1 = ({
           isImgActive ? "text-zinc-100" : "text-zinc-900"
         }`}
       >
-        <h4 className="w-[70%] lg:w-[30%] underline font-[Saans] mb-3 lg:mb-5 lg:text-sm">
+        <h4 className="w-[70%] lg:w-[30%] underline font-[Saans] mb-2 lg:mb-5 lg:text-sm">
           Signature Marshall sound built for music lovers who crave rich,
           immersive audio.
         </h4>
@@ -229,7 +229,7 @@ const Page1 = ({
           A STATE OF MIND.
         </h1>
 
-        <h4 className="absolute top-1/2 right-8 lg:-right-0 translate-x-1/2 lg:translate-y-1/2 text-4xl font-[Silk-Serif-Light-Italic]">
+        <h4 className="absolute top-1/2 right-7 lg:-right-0 translate-x-1/2 lg:translate-y-1/2 text-4xl font-[Silk-Serif-Light-Italic]">
           01
         </h4>
       </div>
@@ -267,8 +267,8 @@ const Page1 = ({
             </div>
             <h3>designing</h3>
           </div>
-          <div className="hidden lg:flex flex-col items-end">
-            <div className="w-[8.5vw] h-[22vh] overflow-hidden">
+          <div className="flex flex-col items-end hidden lg:flex">
+            <div className="w-32 h-40 overflow-hidden">
               <img
                 ref={img2}
                 onMouseEnter={() => hoverIn(img2.current)}
@@ -282,7 +282,7 @@ const Page1 = ({
           </div>
         </div>
 
-        <div className="flex items-center gap-3 h-full w-full">
+        <div className="hidden lg:flex items-center gap-3 h-full w-full">
           <div className="w-[40vw]"></div>
           <div className="h-[48vh] flex gap-3">
             <div className="flex flex-col items-end">
