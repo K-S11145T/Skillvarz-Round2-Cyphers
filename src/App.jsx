@@ -15,10 +15,27 @@ const BREAKPOINT = 768;
 const App = () => {
   const scrollContainerRef = useRef(null);
   const contentRef = useRef(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
   const [isPage1Complete, setIsPage1Complete] = useState(false);
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= BREAKPOINT);
   const [isScrollLocked, setIsScrollLocked] = useState(true);
   const animationRef = useRef(null);
+
+  useEffect(() => {
+    if (!isDesktop || !scrollContainerRef.current) return;
+  
+    const container = scrollContainerRef.current;
+    
+    const updateProgress = () => {
+      const scrollWidth = container.scrollWidth - container.clientWidth;
+      const progress = scrollWidth > 0 ? container.scrollLeft / scrollWidth : 0;
+      setScrollProgress(progress);
+    };
+  
+    // GSAP ticker for smooth progress updates
+    gsap.ticker.add(updateProgress);
+    return () => gsap.ticker.remove(updateProgress);
+  }, [isDesktop]);
 
   // Handle scroll animation with GSAP
   const animateScroll = useCallback((target, duration = 1, ease = "power2.out") => {
@@ -182,7 +199,7 @@ const App = () => {
         >
           <Circle />
         </div>
-        <Navbar />
+        <Navbar scrollProgress={scrollProgress} />
         <Page1 
   onComplete={() => {
     setIsPage1Complete(true);
