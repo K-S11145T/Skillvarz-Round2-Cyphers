@@ -58,7 +58,7 @@ const Circle = ({ homeImgClick, homeImgHover }) => {
         homeImgHover
           ? "text-[#fff] border-[#fff]"
           : "text-[#1E1E1E] border-[#5C5858]"
-      } circle pointer-events-none z-[9999] absolute top-0 left-0 w-56 h-56 flex items-center justify-center rounded-full text-xs leading-none font-[Aux-mono] font-light border-1`}
+      } circle pointer-events-none z-[20] absolute top-0 left-0 w-56 h-56 flex items-center justify-center rounded-full text-xs leading-none font-[Aux-mono] font-light border-1`}
     >
       <div ref={circleTextRef} className=" font-light font-[Saans]">
         <span
