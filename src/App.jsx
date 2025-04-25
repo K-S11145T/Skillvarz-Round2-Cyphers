@@ -191,16 +191,17 @@ const App = () => {
       >
         <Loader />
         <div
-          style={{
-            position: "fixed",
-            top: "0%",
-            left: "0%",
-            transform: "translate(-50%, -50%)",
-            zIndex: "30",
-          }}
-        >
-          <Circle homeImgHover={homeImgHover} homeImgClick={homeImgClick} />
-        </div>
+  style={{
+    position: "fixed",
+    top: "0%",  // Changed from 0%
+    left: "0%", // Changed from 0%
+    transform: "translate(-50%, -50%)",
+    zIndex: "100", // Increased from 30 to ensure it's above everything
+    pointerEvents: "none" // Added to ensure it doesn't block interactions
+  }}
+>
+  <Circle homeImgHover={homeImgHover} homeImgClick={homeImgClick} />
+</div>
         <Navbar scrollProgress={ scrollProgress }  />
         <Page1
           onComplete={() => {

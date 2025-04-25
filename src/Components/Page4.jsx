@@ -68,7 +68,7 @@ const Page4 = () => {
   }, [targetOffset]);
 
   return (
-    <div className="flex-none w-screen min-h-screen bg-zinc-100 relative">
+    <div className="flex-none w-screen min-h-screen bg-[#EDEDED] relative">
       {/* Container with z-index management */}
       <div className="flex flex-row w-full h-full">
         {/* First div - 35% width with floating text animation */}

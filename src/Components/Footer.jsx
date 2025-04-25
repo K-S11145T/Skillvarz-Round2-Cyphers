@@ -5,7 +5,7 @@ import VerticalMarquee from "../Animations/VerticalMarquee";
 const Footer = () => {
   return (
     <div className=" h-screen">
-      <div className="flex-none relative bottom-0 left-0 w-screen h-screen bg-white text-black z-50">
+      <div className="flex-none relative bottom-0 left-0 w-screen h-screen bg-[#EDEDED] text-black z-50">
         <div className="w-full p-5 flex items-center justify-center text-9xl h-[100%] font-rewritten">
           <div className="border-l-1 flex border-zinc-700  w-[98%] h-[90%]">
             <div data-scroll-container  className="flex items-center justify-end relative w-[50%] h-full">
@@ -44,7 +44,7 @@ const Footer = () => {
               <div className="border-1 text-xl flex p-2 mt-5 rounded-md outline-none">
                 <input
                   placeholder="Email"
-                  className="flex w-[90%] items-center"
+                  className="flex w-[90%] items-center outline-none border-none bg-transparent text-xl"
                   type="email"
                 />
                 <div className="w-[10%] cursor-pointer  flex items-center justify-center h-full">
